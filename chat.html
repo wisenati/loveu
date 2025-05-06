@@ -866,6 +866,119 @@
         transform: scale(1.1);
       }
 
+      /* No Tokens Modal */
+      .no-tokens-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .no-tokens-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .no-tokens-modal {
+        background-color: var(--white);
+        border-radius: 20px;
+        width: 90%;
+        max-width: 400px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .no-tokens-modal-overlay.active .no-tokens-modal {
+        transform: scale(1);
+      }
+
+      .no-tokens-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
+
+      .no-tokens-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+      }
+
+      .no-tokens-message {
+        font-size: 1rem;
+        color: var(--text-color);
+        margin-bottom: 20px;
+      }
+
+      .buy-tokens-btn {
+        padding: 12px 25px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .buy-tokens-btn:hover {
+        background-color: var(--dark-pink);
+        transform: translateY(-2px);
+      }
+
+      .cancel-btn {
+        padding: 12px 25px;
+        background-color: var(--light-gray);
+        color: var(--text-color);
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .cancel-btn:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Token Cost Indicator */
+      .token-cost-indicator {
+        position: absolute;
+        right: 60px;
+        bottom: 12px;
+        font-size: 0.8rem;
+        color: var(--dark-gray);
+        background-color: var(--light-gray);
+        padding: 3px 8px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+
+      .token-cost-indicator i {
+        color: var(--primary-color);
+        font-size: 0.9rem;
+      }
+
       /* Loading Spinner */
       .loader-container {
         display: flex;
@@ -995,6 +1108,12 @@
         .message-input {
           padding: 10px;
         }
+
+        .token-cost-indicator {
+          right: 50px;
+          bottom: 10px;
+          font-size: 0.7rem;
+        }
       }
     </style>
   </head>
@@ -1053,13 +1172,13 @@
                 alt="Verified"
                 class="verified-badge"
                 id="partnerVerifiedBadge"
-                style="display: none"
+                style="display: none;"
               />
             </div>
             <div class="partner-status" id="partnerStatus">Online</div>
           </div>
         </div>
-        <div id="partnerFollowers" class="followers-chip" style="display: none">
+        <div id="partnerFollowers" class="followers-chip" style="display: none;">
           <i class="fas fa-users"></i>
           <span id="followerCount">0</span> followers
         </div>
@@ -1078,7 +1197,9 @@
 
       <!-- Messages Area -->
       <div class="messages-container" id="messagesContainer">
-        <div class="system-message">Start chatting with your match! 💕</div>
+        <div class="system-message">
+          Start chatting with your match! 💕
+        </div>
         <!-- Messages will be added here dynamically -->
       </div>
 
@@ -1094,12 +1215,7 @@
           <button class="input-action-btn" id="loveBtn" title="Send Love">
             <i class="fas fa-heart"></i>
           </button>
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            style="display: none"
-          />
+          <input type="file" id="imageInput" accept="image/*" style="display: none;" />
         </div>
         <div class="quote-preview" id="quotePreview">
           <div class="quote-preview-text" id="quotePreviewText"></div>
@@ -1111,6 +1227,9 @@
           placeholder="Type a message..."
           rows="1"
         ></textarea>
+        <div class="token-cost-indicator">
+          <i class="fas fa-gem"></i> 1
+        </div>
         <button class="send-btn" id="sendBtn" disabled>
           <i class="fas fa-paper-plane"></i>
         </button>
@@ -1163,13 +1282,27 @@
     <!-- Image Preview Modal -->
     <div class="image-preview-overlay" id="imagePreviewModal">
       <div class="image-preview-container">
-        <img
-          src="/placeholder.svg"
-          alt="Image Preview"
-          class="image-preview"
-          id="previewImage"
-        />
+        <img src="/placeholder.svg" alt="Image Preview" class="image-preview" id="previewImage" />
         <div class="image-preview-close" id="imagePreviewClose">&times;</div>
+      </div>
+    </div>
+
+    <!-- No Tokens Modal -->
+    <div class="no-tokens-modal-overlay" id="noTokensModal">
+      <div class="no-tokens-modal">
+        <div class="no-tokens-icon">
+          <i class="fas fa-gem"></i>
+        </div>
+        <h3 class="no-tokens-title">Out of Tokens</h3>
+        <p class="no-tokens-message">
+          You need tokens to send messages. Purchase more tokens to continue chatting.
+        </p>
+        <button class="buy-tokens-btn" id="buyTokensBtn">
+          Buy Tokens
+        </button>
+        <button class="cancel-btn" id="cancelNoTokensBtn">
+          Cancel
+        </button>
       </div>
     </div>
 
@@ -1209,9 +1342,7 @@
       const partnerName = document.getElementById("partnerName");
       const partnerAvatar = document.getElementById("partnerAvatar");
       const partnerStatus = document.getElementById("partnerStatus");
-      const partnerVerifiedBadge = document.getElementById(
-        "partnerVerifiedBadge"
-      );
+      const partnerVerifiedBadge = document.getElementById("partnerVerifiedBadge");
       const partnerFollowers = document.getElementById("partnerFollowers");
       const followerCount = document.getElementById("followerCount");
       const userBalance = document.getElementById("userBalance");
@@ -1231,6 +1362,9 @@
       const imagePreviewModal = document.getElementById("imagePreviewModal");
       const previewImage = document.getElementById("previewImage");
       const imagePreviewClose = document.getElementById("imagePreviewClose");
+      const noTokensModal = document.getElementById("noTokensModal");
+      const buyTokensBtn = document.getElementById("buyTokensBtn");
+      const cancelNoTokensBtn = document.getElementById("cancelNoTokensBtn");
 
       // Global variables
       let currentUser = null;
@@ -1266,7 +1400,7 @@
       function showToast(message, type = "info") {
         const toast = document.createElement("div");
         toast.className = `toast toast-${type}`;
-
+        
         let icon = "";
         if (type === "success") {
           icon = '<i class="fas fa-check"></i>';
@@ -1275,7 +1409,7 @@
         } else {
           icon = '<i class="fas fa-info"></i>';
         }
-
+        
         toast.innerHTML = `
           <div class="toast-icon">${icon}</div>
           <div class="toast-content">
@@ -1283,9 +1417,9 @@
           </div>
           <div class="toast-progress"></div>
         `;
-
+        
         document.getElementById("toastContainer").appendChild(toast);
-
+        
         setTimeout(() => {
           toast.classList.add("hide");
           setTimeout(() => {
@@ -1297,51 +1431,40 @@
       // Format timestamp
       function formatTime(timestamp) {
         const date = new Date(timestamp);
-        return date.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
 
       // Create message element
       function createMessageElement(message, isCurrentUser) {
         const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${
-          isCurrentUser ? "message-sent" : "message-received"
-        }`;
+        messageDiv.className = `message ${isCurrentUser ? "message-sent" : "message-received"}`;
         messageDiv.dataset.id = message.id;
-
+        
         let messageContent = "";
-
+        
         // Add quoted message if exists
         if (message.quotedMessage) {
           messageContent += `
             <div class="quoted-message">
-              <div class="quoted-author">${
-                message.quotedMessage.sender === currentUser.uid
-                  ? "You"
-                  : partnerData.personalInfo.username
-              }</div>
+              <div class="quoted-author">${message.quotedMessage.sender === currentUser.uid ? "You" : partnerData.personalInfo.username}</div>
               ${message.quotedMessage.text}
             </div>
           `;
         }
-
+        
         // Add message text
         messageContent += `<div class="message-text">${message.text}</div>`;
-
+        
         // Add image if exists
         if (message.imageUrl) {
           messageContent += `
             <img src="${message.imageUrl}" alt="Shared image" class="message-image" data-src="${message.imageUrl}">
           `;
         }
-
+        
         // Add timestamp
-        messageContent += `<div class="message-time">${formatTime(
-          message.timestamp
-        )}</div>`;
-
+        messageContent += `<div class="message-time">${formatTime(message.timestamp)}</div>`;
+        
         // Add message actions for received messages
         if (!isCurrentUser) {
           messageContent += `
@@ -1352,9 +1475,9 @@
             </div>
           `;
         }
-
+        
         messageDiv.innerHTML = messageContent;
-
+        
         // Add event listeners for message actions
         if (!isCurrentUser) {
           const quoteBtn = messageDiv.querySelector(".quote-btn");
@@ -1362,7 +1485,7 @@
             setQuotedMessage(message);
           });
         }
-
+        
         // Add event listener for image preview
         const messageImage = messageDiv.querySelector(".message-image");
         if (messageImage) {
@@ -1371,7 +1494,7 @@
             imagePreviewModal.classList.add("active");
           });
         }
-
+        
         return messageDiv;
       }
 
@@ -1386,10 +1509,9 @@
       // Set quoted message
       function setQuotedMessage(message) {
         quotedMessage = message;
-        quotePreviewText.textContent =
-          message.text.length > 50
-            ? message.text.substring(0, 50) + "..."
-            : message.text;
+        quotePreviewText.textContent = message.text.length > 50 
+          ? message.text.substring(0, 50) + "..." 
+          : message.text;
         quotePreview.classList.add("active");
         messageInput.focus();
       }
@@ -1400,48 +1522,115 @@
         quotePreview.classList.remove("active");
       }
 
+      // Check if user has enough tokens
+      function hasEnoughTokens() {
+        return userData && userData.accountInfo && userData.accountInfo.tokens > 0;
+      }
+
+      // Update user tokens
+      async function updateUserTokens(amount) {
+        try {
+          // Update tokens in Firebase
+          const userRef = database.ref(`loveu/users/${currentUser.uid}/accountInfo/tokens`);
+          await userRef.transaction((currentTokens) => {
+            return (currentTokens || 0) - amount;
+          });
+          
+          // Update local user data
+          userData.accountInfo.tokens -= amount;
+          
+          // Update UI
+          userTokens.textContent = userData.accountInfo.tokens;
+          modalTokenBalance.textContent = userData.accountInfo.tokens;
+          
+          // Check if tokens are now 0 and update UI accordingly
+          checkTokensForUI();
+          
+          return true;
+        } catch (error) {
+          console.error("Error updating tokens:", error);
+          return false;
+        }
+      }
+
+      // Show no tokens modal
+      function showNoTokensModal() {
+        noTokensModal.classList.add("active");
+      }
+
+      // Hide no tokens modal
+      function hideNoTokensModal() {
+        noTokensModal.classList.remove("active");
+      }
+
+      // Check tokens and update UI accordingly
+      function checkTokensForUI() {
+        if (!hasEnoughTokens()) {
+          sendBtn.disabled = true;
+          imageBtn.disabled = true;
+          loveBtn.disabled = true;
+        } else {
+          sendBtn.disabled = messageInput.value.trim() === "";
+          imageBtn.disabled = !isUserVerified;
+          loveBtn.disabled = false;
+        }
+      }
+
       // Send message
       async function sendMessage(text, imageUrl = null) {
         if ((!text || text.trim() === "") && !imageUrl) return;
-
+        
+        // Check if user has enough tokens
+        if (!hasEnoughTokens()) {
+          showNoTokensModal();
+          return;
+        }
+        
         const messageId = Date.now().toString();
         const timestamp = firebase.database.ServerValue.TIMESTAMP;
-
+        
         const messageData = {
           id: messageId,
           sender: currentUser.uid,
           text: text.trim(),
           timestamp: timestamp,
-          read: false,
+          read: false
         };
-
+        
         // Add image URL if exists
         if (imageUrl) {
           messageData.imageUrl = imageUrl;
         }
-
+        
         // Add quoted message if exists
         if (quotedMessage) {
           messageData.quotedMessage = {
             id: quotedMessage.id,
             sender: quotedMessage.sender,
-            text: quotedMessage.text,
+            text: quotedMessage.text
           };
           clearQuotedMessage();
         }
-
+        
         try {
+          // Deduct 1 token for sending a message
+          const tokenUpdated = await updateUserTokens(1);
+          if (!tokenUpdated) {
+            showToast("Failed to update tokens. Please try again.", "error");
+            return;
+          }
+          
           // Save to Firebase
           await messagesRef.child(messageId).set(messageData);
-
+          
           // Save to local storage
           saveMessageToLocalStorage(messageData);
-
+          
           // Clear input
           messageInput.value = "";
           messageInput.style.height = "45px";
           sendBtn.disabled = true;
-
+          
           // Scroll to bottom
           setTimeout(() => {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1455,49 +1644,47 @@
       // Send image
       async function sendImage(file) {
         if (!file) return;
-
-        // Check if user is verified
-        if (!isUserVerified) {
-          showToast(
-            "Hi love you're not verified you cant send images",
-            "error"
-          );
+        
+        // Check if user has enough tokens
+        if (!hasEnoughTokens()) {
+          showNoTokensModal();
           return;
         }
-
+        
+        // Check if user is verified
+        if (!isUserVerified) {
+          showToast("Hi love you're not verified you cant send images", "error");
+          return;
+        }
+        
         // Check file type
         if (!file.type.match("image.*")) {
           showToast("Please select an image file", "error");
           return;
         }
-
+        
         // Check file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
           showToast("Image must be less than 5MB", "error");
           return;
         }
-
+        
         try {
           // Show loading message
           const loadingMessage = createSystemMessage("Uploading image...");
           messagesContainer.appendChild(loadingMessage);
           messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
+          
           // Upload to Firebase Storage
-          const storageRef = storage.ref(
-            `chat_images/${chatId}/${Date.now()}_${file.name}`
-          );
+          const storageRef = storage.ref(`chat_images/${chatId}/${Date.now()}_${file.name}`);
           const uploadTask = storageRef.put(file);
-
+          
           uploadTask.on(
             "state_changed",
             (snapshot) => {
               // Progress
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              loadingMessage.textContent = `Uploading image... ${Math.round(
-                progress
-              )}%`;
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              loadingMessage.textContent = `Uploading image... ${Math.round(progress)}%`;
             },
             (error) => {
               // Error
@@ -1521,6 +1708,12 @@
 
       // Send love animation
       function sendLoveAnimation() {
+        // Check if user has enough tokens
+        if (!hasEnoughTokens()) {
+          showNoTokensModal();
+          return;
+        }
+        
         // Create love animation
         const love = document.createElement("div");
         love.className = "love-animation";
@@ -1528,11 +1721,11 @@
         love.style.left = `${Math.random() * 80 + 10}%`;
         love.style.bottom = "100px";
         document.body.appendChild(love);
-
+        
         setTimeout(() => {
           love.remove();
         }, 2000);
-
+        
         // Send love message
         sendMessage("❤️");
       }
@@ -1543,54 +1736,54 @@
           showToast("Please select a token amount", "error");
           return;
         }
-
+        
         if (selectedTokenAmount > userData.accountInfo.tokens) {
           showToast("You don't have enough tokens", "error");
           return;
         }
-
+        
         try {
           // Update user tokens
           const userRef = database.ref(`loveu/users/${currentUser.uid}`);
-          await userRef
-            .child("accountInfo/tokens")
-            .transaction((currentTokens) => {
-              return (currentTokens || 0) - selectedTokenAmount;
-            });
-
+          await userRef.child("accountInfo/tokens").transaction((currentTokens) => {
+            return (currentTokens || 0) - selectedTokenAmount;
+          });
+          
+          // Update local user data
+          userData.accountInfo.tokens -= selectedTokenAmount;
+          
+          // Update UI
+          userTokens.textContent = userData.accountInfo.tokens;
+          modalTokenBalance.textContent = userData.accountInfo.tokens;
+          
           // Create gift message
-          const giftMessage = tokenMessage.value.trim()
-            ? `Sent ${selectedTokenAmount} tokens: ${tokenMessage.value.trim()}`
-            : `Sent ${selectedTokenAmount} tokens`;
-
-          // Send system message
           const giftData = {
             id: Date.now().toString(),
             sender: "system",
             text: `${userData.personalInfo.username} sent ${selectedTokenAmount} tokens to ${partnerData.personalInfo.username}`,
             timestamp: firebase.database.ServerValue.TIMESTAMP,
             isGift: true,
-            giftAmount: selectedTokenAmount,
+            giftAmount: selectedTokenAmount
           };
-
+          
           await messagesRef.child(giftData.id).set(giftData);
-
+          
           // Send user message if there's text
           if (tokenMessage.value.trim()) {
             sendMessage(tokenMessage.value.trim());
           }
-
+          
           // Close modal
           giftModal.classList.remove("active");
           tokenMessage.value = "";
           selectedTokenAmount = null;
-          tokenAmountBtns.forEach((btn) => btn.classList.remove("selected"));
+          tokenAmountBtns.forEach(btn => btn.classList.remove("selected"));
           sendTokenBtn.disabled = true;
-
-          showToast(
-            `Successfully sent ${selectedTokenAmount} tokens!`,
-            "success"
-          );
+          
+          showToast(`Successfully sent ${selectedTokenAmount} tokens!`, "success");
+          
+          // Check tokens for UI updates
+          checkTokensForUI();
         } catch (error) {
           console.error("Error sending tokens:", error);
           showToast("Failed to send tokens. Please try again.", "error");
@@ -1601,7 +1794,7 @@
       function saveMessageToLocalStorage(message) {
         // Add message to local array
         localMessages.push(message);
-
+        
         // Save to local storage
         localStorage.setItem(`chat_${chatId}`, JSON.stringify(localMessages));
       }
@@ -1625,40 +1818,35 @@
             window.location.href = "main.html";
             return;
           }
-
+          
           // Set chat ID (combination of user IDs)
           const ids = [currentUser.uid, partnerId].sort();
           chatId = `${ids[0]}_${ids[1]}`;
-
+          
           // Set messages reference
           messagesRef = database.ref(`loveu/chats/${chatId}/messages`);
-
+          
           // Get partner data
-          const partnerSnapshot = await database
-            .ref(`loveu/users/${partnerId}`)
-            .once("value");
+          const partnerSnapshot = await database.ref(`loveu/users/${partnerId}`).once("value");
           partnerData = partnerSnapshot.val();
-
+          
           if (partnerData) {
             // Update partner info in UI
-            partnerName.textContent =
-              partnerData.personalInfo.username || "Chat Partner";
-
+            partnerName.textContent = partnerData.personalInfo.username || "Chat Partner";
+            
             if (partnerData.personalInfo.profileImageUrl) {
               partnerAvatar.src = partnerData.personalInfo.profileImageUrl;
             }
-
+            
             if (partnerData.accountInfo.verified) {
               partnerVerifiedBadge.style.display = "inline";
             }
-
+            
             // Check for special email accounts and display followers
             if (partnerData.personalInfo.email === "etherxchange6@gmail.com") {
               followerCount.textContent = "567,653";
               partnerFollowers.style.display = "block";
-            } else if (
-              partnerData.personalInfo.email === "fuwukari@gmail.com"
-            ) {
+            } else if (partnerData.personalInfo.email === "fuwukari@gmail.com") {
               followerCount.textContent = "976,211";
               partnerFollowers.style.display = "block";
             }
@@ -1669,32 +1857,31 @@
               partnerName.textContent = storedPartnerName;
             }
           }
-
+          
+          // Check tokens for UI updates
+          checkTokensForUI();
+          
           // Load messages from local storage first
           const localStorageMessages = loadMessagesFromLocalStorage();
           if (localStorageMessages.length > 0) {
             renderMessages(localStorageMessages);
           }
-
+          
           // Listen for new messages
           messagesListener = messagesRef.on("child_added", (snapshot) => {
             const message = snapshot.val();
-
+            
             // Check if message already exists in local storage
-            const messageExists = localMessages.some(
-              (m) => m.id === message.id
-            );
+            const messageExists = localMessages.some(m => m.id === message.id);
             if (!messageExists) {
               // Add to local storage
               saveMessageToLocalStorage(message);
-
+              
               // Render message
               renderMessage(message);
-
+              
               // Scroll to bottom if user is at bottom
-              const isAtBottom =
-                messagesContainer.scrollHeight - messagesContainer.scrollTop <=
-                messagesContainer.clientHeight + 100;
+              const isAtBottom = messagesContainer.scrollHeight - messagesContainer.scrollTop <= messagesContainer.clientHeight + 100;
               if (isAtBottom) {
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
               }
@@ -1710,17 +1897,15 @@
       function renderMessages(messages) {
         // Clear container
         messagesContainer.innerHTML = "";
-
+        
         // Sort messages by timestamp
-        const sortedMessages = [...messages].sort(
-          (a, b) => a.timestamp - b.timestamp
-        );
-
+        const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
+        
         // Render each message
-        sortedMessages.forEach((message) => {
+        sortedMessages.forEach(message => {
           renderMessage(message, false);
         });
-
+        
         // Scroll to bottom
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
@@ -1728,7 +1913,7 @@
       // Render single message
       function renderMessage(message, scrollToBottom = true) {
         let messageElement;
-
+        
         if (message.sender === "system") {
           // System message
           messageElement = createSystemMessage(message.text);
@@ -1737,9 +1922,9 @@
           const isCurrentUser = message.sender === currentUser.uid;
           messageElement = createMessageElement(message, isCurrentUser);
         }
-
+        
         messagesContainer.appendChild(messageElement);
-
+        
         if (scrollToBottom) {
           messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
@@ -1748,37 +1933,35 @@
       // Auto-resize textarea
       function autoResizeTextarea() {
         messageInput.style.height = "45px";
-        messageInput.style.height =
-          (messageInput.scrollHeight > 120 ? 120 : messageInput.scrollHeight) +
-          "px";
+        messageInput.style.height = (messageInput.scrollHeight > 120 ? 120 : messageInput.scrollHeight) + "px";
       }
 
       // Initialize the page
       document.addEventListener("DOMContentLoaded", () => {
         createHearts();
-
+        
         // Check auth state
         auth.onAuthStateChanged(async (user) => {
           if (user) {
             currentUser = user;
-
+            
             // Get user data
-            const userSnapshot = await database
-              .ref(`loveu/users/${user.uid}`)
-              .once("value");
+            const userSnapshot = await database.ref(`loveu/users/${user.uid}`).once("value");
             userData = userSnapshot.val();
-
+            
             if (userData) {
               // Update user info in UI
-              userBalance.textContent =
-                userData.accountInfo.userbalance.toFixed(2);
+              userBalance.textContent = userData.accountInfo.userbalance.toFixed(2);
               userTokens.textContent = userData.accountInfo.tokens;
               modalTokenBalance.textContent = userData.accountInfo.tokens;
-
+              
               // Check if user is verified
               isUserVerified = userData.accountInfo.verified || false;
+              
+              // Check tokens for UI updates
+              checkTokensForUI();
             }
-
+            
             // Initialize chat
             initializeChat();
           } else {
@@ -1786,18 +1969,20 @@
             window.location.href = "registration.html";
           }
         });
-
+        
         // Event listeners
         backBtn.addEventListener("click", () => {
           window.location.href = "main.html";
         });
-
+        
         // Message input events
         messageInput.addEventListener("input", () => {
-          sendBtn.disabled = messageInput.value.trim() === "";
+          if (hasEnoughTokens()) {
+            sendBtn.disabled = messageInput.value.trim() === "";
+          }
           autoResizeTextarea();
         });
-
+        
         messageInput.addEventListener("keydown", (e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -1806,24 +1991,26 @@
             }
           }
         });
-
+        
         // Send button
         sendBtn.addEventListener("click", () => {
           sendMessage(messageInput.value);
         });
-
+        
         // Image button
         imageBtn.addEventListener("click", () => {
+          if (!hasEnoughTokens()) {
+            showNoTokensModal();
+            return;
+          }
+          
           if (!isUserVerified) {
-            showToast(
-              "Hi love you're not verified you cant send images",
-              "error"
-            );
+            showToast("Hi love you're not verified you cant send images", "error");
             return;
           }
           imageInput.click();
         });
-
+        
         // Image input
         imageInput.addEventListener("change", (e) => {
           if (e.target.files.length > 0) {
@@ -1832,50 +2019,57 @@
             e.target.value = "";
           }
         });
-
+        
         // Love button
         loveBtn.addEventListener("click", sendLoveAnimation);
-
+        
         // Quote preview close
         quotePreviewClose.addEventListener("click", clearQuotedMessage);
-
+        
         // Gift button
         giftBtn.addEventListener("click", () => {
           giftModal.classList.add("active");
         });
-
+        
         // Gift modal close
         giftModalClose.addEventListener("click", () => {
           giftModal.classList.remove("active");
         });
-
+        
         // Token amount buttons
-        tokenAmountBtns.forEach((btn) => {
+        tokenAmountBtns.forEach(btn => {
           btn.addEventListener("click", () => {
-            tokenAmountBtns.forEach((b) => b.classList.remove("selected"));
+            tokenAmountBtns.forEach(b => b.classList.remove("selected"));
             btn.classList.add("selected");
             selectedTokenAmount = parseInt(btn.dataset.amount);
             sendTokenBtn.disabled = false;
           });
         });
-
+        
         // Send token button
         sendTokenBtn.addEventListener("click", sendTokenGift);
-
+        
         // Image preview close
         imagePreviewClose.addEventListener("click", () => {
           imagePreviewModal.classList.remove("active");
         });
-
+        
+        // No tokens modal buttons
+        buyTokensBtn.addEventListener("click", () => {
+          window.location.href = "settings.html";
+        });
+        
+        cancelNoTokensBtn.addEventListener("click", hideNoTokensModal);
+        
         // Call and video buttons (placeholders)
         callBtn.addEventListener("click", () => {
           showToast("Voice call feature coming soon!", "info");
         });
-
+        
         videoBtn.addEventListener("click", () => {
           showToast("Video call feature coming soon!", "info");
         });
-
+        
         // Emoji button (placeholder)
         emojiBtn.addEventListener("click", () => {
           showToast("Emoji picker coming soon!", "info");
