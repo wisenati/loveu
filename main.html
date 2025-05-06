@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love U - Home</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #ff2d75;
+        --secondary-color: #ff6b9e;
+        --dark-pink: #d60057;
+        --light-pink: #ffc0d5;
+        --white: #ffffff;
+        --text-color: #333333;
+        --error-color: #e74c3c;
+        --success-color: #2ecc71;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --card-bg: rgba(255, 255, 255, 0.85);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: var(--text-color);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .page-container {
+        max-width: 100%;
+        padding-bottom: 30px;
+      }
+
+      /* Hearts Animation Background */
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        animation: float 6s ease-in infinite;
+        font-size: 1.5rem;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Header Styles */
+      .header {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        animation: fadeInDown 0.5s ease-out;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        animation: pulse 2s infinite;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(
+          to right,
+          var(--dark-pink),
+          var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .user-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .menu-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .menu-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .user-stats {
+        display: flex;
+        gap: 10px;
+      }
+
+      .stat-chip {
+        padding: 8px 15px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .stat-chip i {
+        color: var(--primary-color);
+      }
+
+      /* Main Content */
+      .content-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .invitation-card {
+        background-color: var(--card-bg);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .profile-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        margin-right: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-info {
+        flex-grow: 1;
+      }
+
+      .profile-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+      }
+
+      .verified-badge {
+        width: 20px;
+        height: 20px;
+      }
+
+      .invitation-text {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        margin-bottom: 5px;
+      }
+
+      .videos-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .video-card {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        height: 200px;
+      }
+
+      .video-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .video-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0.8;
+        transition: all 0.3s ease;
+      }
+
+      .video-card:hover .play-icon {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+
+      .chat-btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        text-align: center;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .chat-btn:hover {
+        background-color: var(--dark-pink);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(255, 45, 117, 0.5);
+      }
+
+      .chat-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Loading Spinner */
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+      }
+
+      .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--white);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .header {
+          padding: 12px 15px;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+        }
+
+        .logo-img {
+          width: 35px;
+          height: 35px;
+        }
+
+        .user-stats {
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .stat-chip {
+          padding: 5px 10px;
+          font-size: 0.8rem;
+        }
+
+        .videos-container {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 15px;
+        }
+
+        .video-card {
+          height: 150px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .videos-container {
+          grid-template-columns: 1fr;
+        }
+
+        .invitation-card {
+          padding: 15px;
+        }
+
+        .profile-image {
+          width: 55px;
+          height: 55px;
+        }
+
+        .profile-name {
+          font-size: 1.3rem;
+        }
+
+        .invitation-text {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hearts Background Animation -->
+    <div class="hearts" id="hearts"></div>
+
+    <div class="page-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo-container">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/176/176670.png"
+            alt="Love U Logo"
+            class="logo-img"
+          />
+          <h1 class="logo-text">Love U</h1>
+        </div>
+
+        <div class="user-meta">
+          <div class="user-stats">
+            <div class="stat-chip">
+              <i class="fas fa-dollar-sign"></i>
+              <span id="userBalance">0.00</span>
+            </div>
+            <div class="stat-chip">
+              <i class="fas fa-gem"></i>
+              <span id="userTokens">0</span> Tokens
+            </div>
+          </div>
+
+          <div class="menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="content-container">
+        <div class="invitation-card">
+          <div class="profile-header">
+            <img
+              src="https://phantom-marca.unidadeditorial.es/584c983a4390908df19520471c87e2f9/resize/1320/f/jpg/assets/multimedia/imagenes/2023/05/13/16839716859428.jpg"
+              alt="Cardi b"
+              class="profile-image"
+              id="profileImage"
+            />
+            <div class="profile-info">
+              <div class="profile-name">
+                Cardi b
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/12559/12559876.png"
+                  alt="Verified"
+                  class="verified-badge"
+                />
+              </div>
+              <p class="invitation-text">
+                Invited you to have a conversation with her
+              </p>
+            </div>
+          </div>
+
+          <div class="videos-container">
+            <!-- Video 1 -->
+            <div class="video-card">
+              <img
+                src="https://th.bing.com/th/id/OIP.dl9JcB2p3X8fZruVGsCPPgHaJQ?rs=1&pid=ImgDetMain"
+                alt="Video 1"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+            <!-- Video 2 -->
+            <div class="video-card">
+              <img
+                src="https://th.bing.com/th/id/OIP.VpQcCt6Mp1uo1x6Shu8e8AHaFN?rs=1&pid=ImgDetMain"
+                alt="Video 2"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+            <!-- Video 3 -->
+            <div class="video-card">
+              <img
+                src="https://th.bing.com/th/id/R.37b40a96a36ad7fb6f8a2c61f7d3f738?rik=AqraXIxeRHLkZw&riu=http%3a%2f%2fthatgrapejuice.net%2fwp-content%2fuploads%2f2018%2f02%2fcardi-blonde-thatgrapejuice.jpg&ehk=ouGOjoTNfvZpbwG8kWVNoDHSCCtbv5g1CVlMj0GjLsg%3d&risl=&pid=ImgRaw&r=0"
+                alt="Video 3"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+            <!-- Video 4 -->
+            <div class="video-card">
+              <img
+                src="https://th.bing.com/th/id/OIP.aR9Eg0RTkj0j9cIQwMAqEAHaE5?rs=1&pid=ImgDetMain"
+                alt="Video 4"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+            <!-- Video 5 -->
+            <div class="video-card">
+              <img
+                src="https://www.byrdie.com/thmb/vvBOxeEF7SspLhznqkiw_kr34CU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cardibbangsmain-8495240374d14734b96364c0ef20fede.jpg"
+                alt="Video 5"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+            <!-- Video 6 -->
+            <div class="video-card">
+              <img
+                src="https://th.bing.com/th/id/OIP.33a3EtCrNQ_VTguGcpHU6wHaEK?rs=1&pid=ImgDetMain"
+                alt="Video 6"
+                class="video-thumbnail"
+              />
+              <div class="play-icon">
+                <i class="fas fa-play"></i>
+              </div>
+            </div>
+          </div>
+
+          <button class="chat-btn" id="chatBtn">Chat with Cardi b</button>
+        </div>
+
+        <!-- Users List Section - Will be populated dynamically -->
+        <div id="usersList" class="users-list"></div>
+      </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <!-- Firebase Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      // Create floating hearts
+      function createHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        const heartCount = 15;
+
+        for (let i = 0; i < heartCount; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.top = Math.random() * 100 + "vh";
+          heart.style.animationDuration = 3 + Math.random() * 7 + "s";
+          heart.style.animationDelay = Math.random() * 5 + "s";
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      // Get current user data
+      function getCurrentUserData() {
+        const user = auth.currentUser;
+
+        if (user) {
+          // Show loader while fetching data
+          document.getElementById(
+            "userBalance"
+          ).innerHTML = `<div class="loader" style="width: 15px; height: 15px;"></div>`;
+          document.getElementById(
+            "userTokens"
+          ).innerHTML = `<div class="loader" style="width: 15px; height: 15px;"></div>`;
+
+          // Get user data from database
+          database
+            .ref(`loveu/users/${user.uid}`)
+            .once("value")
+            .then((snapshot) => {
+              const userData = snapshot.val();
+              if (userData) {
+                // Update balance and tokens in UI
+                document.getElementById("userBalance").textContent =
+                  userData.accountInfo.userbalance.toFixed(2);
+                document.getElementById("userTokens").textContent =
+                  userData.accountInfo.tokens;
+
+                // If profile image exists, update it
+                if (
+                  userData.personalInfo &&
+                  userData.personalInfo.profileImageUrl
+                ) {
+                  document.getElementById("profileImage").src =
+                    userData.personalInfo.profileImageUrl;
+                }
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching user data:", error);
+            });
+        } else {
+          // If no user is logged in, redirect to login page
+          window.location.href = "registration.html";
+        }
+      }
+
+      // Fetch all users for display
+      function fetchUsers() {
+        // Get users from database
+        database
+          .ref("loveu/users")
+          .once("value")
+          .then((snapshot) => {
+            const usersData = snapshot.val();
+            const usersList = document.getElementById("usersList");
+
+            // Clear existing content
+            usersList.innerHTML = "";
+
+            if (usersData) {
+              // Create heading for users section
+              const heading = document.createElement("h2");
+              heading.textContent = "Other Users You Might Like";
+              heading.style.color = "white";
+              heading.style.marginBottom = "20px";
+              heading.style.textAlign = "center";
+              heading.style.fontWeight = "600";
+              usersList.appendChild(heading);
+
+              // Create users grid
+              const usersGrid = document.createElement("div");
+              usersGrid.style.display = "grid";
+              usersGrid.style.gridTemplateColumns =
+                "repeat(auto-fill, minmax(280px, 1fr))";
+              usersGrid.style.gap = "20px";
+
+              // Iterate through users
+              Object.keys(usersData).forEach((userId) => {
+                const user = usersData[userId];
+
+                // Skip current user
+                if (auth.currentUser && userId === auth.currentUser.uid) {
+                  return;
+                }
+
+                // Create user card
+                const userCard = document.createElement("div");
+                userCard.classList.add("invitation-card");
+                userCard.style.animation = "fadeIn 0.8s ease-out";
+                userCard.style.animationDelay = "0.2s";
+
+                // Create profile header
+                const profileHeader = document.createElement("div");
+                profileHeader.classList.add("profile-header");
+
+                // Create profile image
+                const profileImage = document.createElement("img");
+                profileImage.classList.add("profile-image");
+                profileImage.src =
+                  user.personalInfo.profileImageUrl ||
+                  "/api/placeholder/400/320";
+                profileImage.alt = user.personalInfo.username;
+
+                // Create profile info
+                const profileInfo = document.createElement("div");
+                profileInfo.classList.add("profile-info");
+
+                // Create profile name
+                const profileName = document.createElement("div");
+                profileName.classList.add("profile-name");
+                profileName.textContent =
+                  user.personalInfo.username || "Anonymous";
+
+                // Add verified badge if user is verified
+                if (user.accountInfo && user.accountInfo.verified) {
+                  const verifiedBadge = document.createElement("img");
+                  verifiedBadge.classList.add("verified-badge");
+                  verifiedBadge.src =
+                    "https://cdn-icons-png.flaticon.com/128/12559/12559876.png";
+                  verifiedBadge.alt = "Verified";
+                  profileName.appendChild(verifiedBadge);
+                }
+
+                // Create chat button
+                const chatBtn = document.createElement("button");
+                chatBtn.classList.add("chat-btn");
+                chatBtn.textContent = `Chat with ${
+                  user.personalInfo.username || "User"
+                }`;
+                chatBtn.addEventListener("click", () => {
+                  // Store chat partner ID to local storage
+                  localStorage.setItem("chatPartnerId", userId);
+                  localStorage.setItem(
+                    "chatPartnerName",
+                    user.personalInfo.username || "User"
+                  );
+                  window.location.href = "chat.html";
+                });
+
+                // Assemble profile info
+                profileInfo.appendChild(profileName);
+
+                // Assemble profile header
+                profileHeader.appendChild(profileImage);
+                profileHeader.appendChild(profileInfo);
+
+                // Assemble user card
+                userCard.appendChild(profileHeader);
+                userCard.appendChild(chatBtn);
+
+                // Add to users grid
+                usersGrid.appendChild(userCard);
+              });
+
+              usersList.appendChild(usersGrid);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching users:", error);
+          });
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        createHearts();
+
+        // Check if user is logged in
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            // User is signed in, get their data
+            getCurrentUserData();
+            fetchUsers();
+          } else {
+            // No user is signed in, redirect to login
+            window.location.href = "registration.html";
+          }
+        });
+
+        // Event listeners
+        document
+          .getElementById("menuBtn")
+          .addEventListener("click", function () {
+            window.location.href = "settings.html";
+          });
+
+        document
+          .getElementById("chatBtn")
+          .addEventListener("click", function () {
+            // Store default chat partner info in local storage
+            localStorage.setItem("chatPartnerId", "cardib");
+            localStorage.setItem("chatPartnerName", "Cardi b");
+            window.location.href = "chat.html";
+          });
+
+        // Video card click events
+        const videoCards = document.querySelectorAll(".video-card");
+        videoCards.forEach((card, index) => {
+          card.addEventListener("click", function () {
+            // You can add video playback functionality here
+            alert(`Playing video ${index + 1}`);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

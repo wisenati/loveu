@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love U - Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #ff2d75;
+        --secondary-color: #ff6b9e;
+        --dark-pink: #d60057;
+        --light-pink: #ffc0d5;
+        --white: #ffffff;
+        --text-color: #333333;
+        --error-color: #e74c3c;
+        --success-color: #2ecc71;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --light-gray: #f1f1f1;
+        --dark-gray: #777777;
+        --message-sent: #ff6b9e;
+        --message-received: #f1f1f1;
+        --message-quoted: #ffd1e0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: var(--text-color);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Hearts Animation Background */
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        animation: float 6s ease-in infinite;
+        font-size: 1.5rem;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Header Styles */
+      .header {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        animation: fadeInDown 0.5s ease-out;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        animation: pulse 2s infinite;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(
+          to right,
+          var(--dark-pink),
+          var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .user-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .back-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .user-stats {
+        display: flex;
+        gap: 10px;
+      }
+
+      .stat-chip {
+        padding: 8px 15px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .stat-chip i {
+        color: var(--primary-color);
+      }
+
+      .followers-chip {
+        padding: 8px 15px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .followers-chip i {
+        color: var(--primary-color);
+      }
+
+      /* Chat Container */
+      .chat-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 1000px;
+        margin: 20px auto;
+        width: 95%;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      /* Chat Header */
+      .chat-header {
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        background-color: var(--white);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .chat-partner-info {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+
+      .partner-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 2px solid var(--primary-color);
+      }
+
+      .partner-details {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .partner-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .verified-badge {
+        width: 18px;
+        height: 18px;
+      }
+
+      .partner-status {
+        font-size: 0.85rem;
+        color: var(--dark-gray);
+      }
+
+      .chat-actions {
+        display: flex;
+        gap: 15px;
+      }
+
+      .action-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        background-color: var(--light-pink);
+        transform: scale(1.1);
+      }
+
+      /* Messages Area */
+      .messages-container {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .message {
+        max-width: 70%;
+        padding: 12px 15px;
+        border-radius: 18px;
+        position: relative;
+        animation: fadeIn 0.3s ease-out;
+        word-break: break-word;
+      }
+
+      .message-sent {
+        align-self: flex-end;
+        background-color: var(--message-sent);
+        color: var(--white);
+        border-bottom-right-radius: 5px;
+      }
+
+      .message-received {
+        align-self: flex-start;
+        background-color: var(--message-received);
+        color: var(--text-color);
+        border-bottom-left-radius: 5px;
+      }
+
+      .message-time {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        margin-top: 5px;
+        text-align: right;
+      }
+
+      .message-actions {
+        position: absolute;
+        right: 10px;
+        top: -20px;
+        display: flex;
+        gap: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .message:hover .message-actions {
+        opacity: 1;
+      }
+
+      .message-action-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .message-action-btn:hover {
+        transform: scale(1.1);
+        background-color: var(--light-pink);
+      }
+
+      .message-image {
+        max-width: 100%;
+        max-height: 300px;
+        border-radius: 10px;
+        margin-top: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .message-image:hover {
+        transform: scale(1.03);
+      }
+
+      .quoted-message {
+        padding: 8px 12px;
+        border-radius: 10px;
+        background-color: var(--message-quoted);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        border-left: 3px solid var(--primary-color);
+      }
+
+      .quoted-author {
+        font-weight: 600;
+        margin-bottom: 3px;
+        color: var(--primary-color);
+      }
+
+      .system-message {
+        align-self: center;
+        background-color: rgba(0, 0, 0, 0.05);
+        color: var(--dark-gray);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        max-width: 80%;
+        text-align: center;
+      }
+
+      .love-animation {
+        position: absolute;
+        font-size: 2rem;
+        animation: loveFloat 2s ease-out forwards;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      @keyframes loveFloat {
+        0% {
+          transform: translateY(0) scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      /* Input Area */
+      .input-container {
+        padding: 15px;
+        background-color: var(--white);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .input-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .input-action-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .input-action-btn:hover {
+        background-color: var(--light-pink);
+        transform: scale(1.1);
+      }
+
+      .input-action-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .message-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        resize: none;
+        height: 45px;
+        max-height: 120px;
+        overflow-y: auto;
+      }
+
+      .message-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(255, 45, 117, 0.2);
+      }
+
+      .send-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .send-btn:hover {
+        background-color: var(--dark-pink);
+        transform: scale(1.1);
+      }
+
+      .send-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Quoted Message Preview */
+      .quote-preview {
+        padding: 10px 15px;
+        background-color: var(--light-pink);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: none;
+        position: relative;
+      }
+
+      .quote-preview.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .quote-preview-text {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        margin-right: 20px;
+      }
+
+      .quote-preview-close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .quote-preview-close:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      /* Gift Token Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background-color: var(--white);
+        border-radius: 20px;
+        width: 90%;
+        max-width: 400px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active .modal {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .modal-close {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+        background-color: var(--light-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+      }
+
+      .modal-close:hover {
+        background-color: var(--light-pink);
+        color: var(--primary-color);
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .token-amount-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .token-amount-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 15px;
+        background-color: var(--light-gray);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .token-amount-btn:hover {
+        background-color: var(--light-pink);
+      }
+
+      .token-amount-btn.selected {
+        border-color: var(--primary-color);
+        background-color: rgba(255, 45, 117, 0.1);
+      }
+
+      .token-amount {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .token-label {
+        font-size: 0.8rem;
+        color: var(--dark-gray);
+      }
+
+      .token-message {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        resize: none;
+        height: 80px;
+      }
+
+      .token-message:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      .token-balance {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+
+      .token-balance span {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: center;
+      }
+
+      .send-token-btn {
+        padding: 12px 25px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .send-token-btn:hover {
+        background-color: var(--dark-pink);
+        transform: translateY(-2px);
+      }
+
+      .send-token-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Toast Notification */
+      .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+
+      .toast {
+        padding: 15px 20px;
+        border-radius: 10px;
+        background-color: var(--white);
+        color: var(--text-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideInRight 0.3s ease-out forwards;
+        max-width: 300px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .toast.hide {
+        animation: slideOutRight 0.3s ease-out forwards;
+      }
+
+      .toast-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      .toast-success .toast-icon {
+        background-color: rgba(46, 204, 113, 0.2);
+        color: var(--success-color);
+      }
+
+      .toast-error .toast-icon {
+        background-color: rgba(231, 76, 60, 0.2);
+        color: var(--error-color);
+      }
+
+      .toast-info .toast-icon {
+        background-color: rgba(255, 45, 117, 0.2);
+        color: var(--primary-color);
+      }
+
+      .toast-content {
+        flex: 1;
+      }
+
+      .toast-message {
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .toast-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background-color: var(--primary-color);
+        animation: progress 3s linear forwards;
+      }
+
+      @keyframes progress {
+        from {
+          width: 100%;
+        }
+        to {
+          width: 0%;
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* Image Preview Modal */
+      .image-preview-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .image-preview-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .image-preview-container {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+      }
+
+      .image-preview {
+        max-width: 100%;
+        max-height: 90vh;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .image-preview-close {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .image-preview-close:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+        transform: scale(1.1);
+      }
+
+      /* Loading Spinner */
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+      }
+
+      .loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .header {
+          padding: 12px 15px;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+        }
+
+        .logo-img {
+          width: 35px;
+          height: 35px;
+        }
+
+        .user-stats {
+          display: none;
+        }
+
+        .message {
+          max-width: 85%;
+        }
+
+        .token-amount-container {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .token-amount-btn {
+          width: 45%;
+          height: 50px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chat-header {
+          padding: 10px;
+        }
+
+        .partner-avatar {
+          width: 40px;
+          height: 40px;
+        }
+
+        .partner-name {
+          font-size: 1rem;
+        }
+
+        .action-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+
+        .input-container {
+          padding: 10px;
+        }
+
+        .input-action-btn {
+          width: 35px;
+          height: 35px;
+        }
+
+        .send-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .message-input {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hearts Background Animation -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-container">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/176/176670.png"
+          alt="Love U Logo"
+          class="logo-img"
+        />
+        <h1 class="logo-text">Love U</h1>
+      </div>
+
+      <div class="user-meta">
+        <div class="user-stats">
+          <div class="stat-chip">
+            <i class="fas fa-dollar-sign"></i>
+            <span id="userBalance">0.00</span>
+          </div>
+          <div class="stat-chip">
+            <i class="fas fa-gem"></i>
+            <span id="userTokens">0</span> Tokens
+          </div>
+        </div>
+
+        <div class="back-btn" id="backBtn">
+          <i class="fas fa-arrow-left"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-partner-info">
+          <img
+            src="/api/placeholder/400/320"
+            alt="Partner Avatar"
+            class="partner-avatar"
+            id="partnerAvatar"
+          />
+          <div class="partner-details">
+            <div class="partner-name" id="partnerName">
+              Chat Partner
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/12559/12559876.png"
+                alt="Verified"
+                class="verified-badge"
+                id="partnerVerifiedBadge"
+                style="display: none"
+              />
+            </div>
+            <div class="partner-status" id="partnerStatus">Online</div>
+          </div>
+        </div>
+        <div id="partnerFollowers" class="followers-chip" style="display: none">
+          <i class="fas fa-users"></i>
+          <span id="followerCount">0</span> followers
+        </div>
+        <div class="chat-actions">
+          <div class="action-btn" id="giftBtn" title="Send Gift">
+            <i class="fas fa-gift"></i>
+          </div>
+          <div class="action-btn" id="callBtn" title="Voice Call">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="action-btn" id="videoBtn" title="Video Call">
+            <i class="fas fa-video"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="messages-container" id="messagesContainer">
+        <div class="system-message">Start chatting with your match! 💕</div>
+        <!-- Messages will be added here dynamically -->
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-container">
+        <div class="input-actions">
+          <button class="input-action-btn" id="emojiBtn" title="Emoji">
+            <i class="fas fa-smile"></i>
+          </button>
+          <button class="input-action-btn" id="imageBtn" title="Send Image">
+            <i class="fas fa-image"></i>
+          </button>
+          <button class="input-action-btn" id="loveBtn" title="Send Love">
+            <i class="fas fa-heart"></i>
+          </button>
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+        <div class="quote-preview" id="quotePreview">
+          <div class="quote-preview-text" id="quotePreviewText"></div>
+          <div class="quote-preview-close" id="quotePreviewClose">×</div>
+        </div>
+        <textarea
+          class="message-input"
+          id="messageInput"
+          placeholder="Type a message..."
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" disabled>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Gift Token Modal -->
+    <div class="modal-overlay" id="giftModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Send Tokens</h3>
+          <button class="modal-close" id="giftModalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="token-amount-container">
+            <div class="token-amount-btn" data-amount="5">
+              <div class="token-amount">5</div>
+              <div class="token-label">tokens</div>
+            </div>
+            <div class="token-amount-btn" data-amount="10">
+              <div class="token-amount">10</div>
+              <div class="token-label">tokens</div>
+            </div>
+            <div class="token-amount-btn" data-amount="20">
+              <div class="token-amount">20</div>
+              <div class="token-label">tokens</div>
+            </div>
+            <div class="token-amount-btn" data-amount="50">
+              <div class="token-amount">50</div>
+              <div class="token-label">tokens</div>
+            </div>
+          </div>
+          <textarea
+            class="token-message"
+            id="tokenMessage"
+            placeholder="Add a message (optional)"
+          ></textarea>
+          <div class="token-balance">
+            Your balance: <span id="modalTokenBalance">0</span> tokens
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="send-token-btn" id="sendTokenBtn" disabled>
+            Send Tokens
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="image-preview-overlay" id="imagePreviewModal">
+      <div class="image-preview-container">
+        <img
+          src="/placeholder.svg"
+          alt="Image Preview"
+          class="image-preview"
+          id="previewImage"
+        />
+        <div class="image-preview-close" id="imagePreviewClose">&times;</div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+      const storage = firebase.storage();
+
+      // DOM Elements
+      const backBtn = document.getElementById("backBtn");
+      const messagesContainer = document.getElementById("messagesContainer");
+      const messageInput = document.getElementById("messageInput");
+      const sendBtn = document.getElementById("sendBtn");
+      const emojiBtn = document.getElementById("emojiBtn");
+      const imageBtn = document.getElementById("imageBtn");
+      const loveBtn = document.getElementById("loveBtn");
+      const imageInput = document.getElementById("imageInput");
+      const partnerName = document.getElementById("partnerName");
+      const partnerAvatar = document.getElementById("partnerAvatar");
+      const partnerStatus = document.getElementById("partnerStatus");
+      const partnerVerifiedBadge = document.getElementById(
+        "partnerVerifiedBadge"
+      );
+      const partnerFollowers = document.getElementById("partnerFollowers");
+      const followerCount = document.getElementById("followerCount");
+      const userBalance = document.getElementById("userBalance");
+      const userTokens = document.getElementById("userTokens");
+      const giftBtn = document.getElementById("giftBtn");
+      const callBtn = document.getElementById("callBtn");
+      const videoBtn = document.getElementById("videoBtn");
+      const giftModal = document.getElementById("giftModal");
+      const giftModalClose = document.getElementById("giftModalClose");
+      const tokenAmountBtns = document.querySelectorAll(".token-amount-btn");
+      const tokenMessage = document.getElementById("tokenMessage");
+      const modalTokenBalance = document.getElementById("modalTokenBalance");
+      const sendTokenBtn = document.getElementById("sendTokenBtn");
+      const quotePreview = document.getElementById("quotePreview");
+      const quotePreviewText = document.getElementById("quotePreviewText");
+      const quotePreviewClose = document.getElementById("quotePreviewClose");
+      const imagePreviewModal = document.getElementById("imagePreviewModal");
+      const previewImage = document.getElementById("previewImage");
+      const imagePreviewClose = document.getElementById("imagePreviewClose");
+
+      // Global variables
+      let currentUser = null;
+      let userData = null;
+      let partnerData = null;
+      let partnerId = null;
+      let chatId = null;
+      let isUserVerified = false;
+      let selectedTokenAmount = null;
+      let quotedMessage = null;
+      let messagesRef = null;
+      let messagesListener = null;
+      let localMessages = [];
+
+      // Create floating hearts
+      function createHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        const heartCount = 15;
+
+        for (let i = 0; i < heartCount; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.top = Math.random() * 100 + "vh";
+          heart.style.animationDuration = 3 + Math.random() * 7 + "s";
+          heart.style.animationDelay = Math.random() * 5 + "s";
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      // Show toast notification
+      function showToast(message, type = "info") {
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+
+        let icon = "";
+        if (type === "success") {
+          icon = '<i class="fas fa-check"></i>';
+        } else if (type === "error") {
+          icon = '<i class="fas fa-times"></i>';
+        } else {
+          icon = '<i class="fas fa-info"></i>';
+        }
+
+        toast.innerHTML = `
+          <div class="toast-icon">${icon}</div>
+          <div class="toast-content">
+            <div class="toast-message">${message}</div>
+          </div>
+          <div class="toast-progress"></div>
+        `;
+
+        document.getElementById("toastContainer").appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("hide");
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 3000);
+      }
+
+      // Format timestamp
+      function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      // Create message element
+      function createMessageElement(message, isCurrentUser) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${
+          isCurrentUser ? "message-sent" : "message-received"
+        }`;
+        messageDiv.dataset.id = message.id;
+
+        let messageContent = "";
+
+        // Add quoted message if exists
+        if (message.quotedMessage) {
+          messageContent += `
+            <div class="quoted-message">
+              <div class="quoted-author">${
+                message.quotedMessage.sender === currentUser.uid
+                  ? "You"
+                  : partnerData.personalInfo.username
+              }</div>
+              ${message.quotedMessage.text}
+            </div>
+          `;
+        }
+
+        // Add message text
+        messageContent += `<div class="message-text">${message.text}</div>`;
+
+        // Add image if exists
+        if (message.imageUrl) {
+          messageContent += `
+            <img src="${message.imageUrl}" alt="Shared image" class="message-image" data-src="${message.imageUrl}">
+          `;
+        }
+
+        // Add timestamp
+        messageContent += `<div class="message-time">${formatTime(
+          message.timestamp
+        )}</div>`;
+
+        // Add message actions for received messages
+        if (!isCurrentUser) {
+          messageContent += `
+            <div class="message-actions">
+              <div class="message-action-btn quote-btn" title="Quote">
+                <i class="fas fa-reply"></i>
+              </div>
+            </div>
+          `;
+        }
+
+        messageDiv.innerHTML = messageContent;
+
+        // Add event listeners for message actions
+        if (!isCurrentUser) {
+          const quoteBtn = messageDiv.querySelector(".quote-btn");
+          quoteBtn.addEventListener("click", () => {
+            setQuotedMessage(message);
+          });
+        }
+
+        // Add event listener for image preview
+        const messageImage = messageDiv.querySelector(".message-image");
+        if (messageImage) {
+          messageImage.addEventListener("click", (e) => {
+            previewImage.src = e.target.dataset.src;
+            imagePreviewModal.classList.add("active");
+          });
+        }
+
+        return messageDiv;
+      }
+
+      // Create system message element
+      function createSystemMessage(text) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "system-message";
+        messageDiv.textContent = text;
+        return messageDiv;
+      }
+
+      // Set quoted message
+      function setQuotedMessage(message) {
+        quotedMessage = message;
+        quotePreviewText.textContent =
+          message.text.length > 50
+            ? message.text.substring(0, 50) + "..."
+            : message.text;
+        quotePreview.classList.add("active");
+        messageInput.focus();
+      }
+
+      // Clear quoted message
+      function clearQuotedMessage() {
+        quotedMessage = null;
+        quotePreview.classList.remove("active");
+      }
+
+      // Send message
+      async function sendMessage(text, imageUrl = null) {
+        if ((!text || text.trim() === "") && !imageUrl) return;
+
+        const messageId = Date.now().toString();
+        const timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+        const messageData = {
+          id: messageId,
+          sender: currentUser.uid,
+          text: text.trim(),
+          timestamp: timestamp,
+          read: false,
+        };
+
+        // Add image URL if exists
+        if (imageUrl) {
+          messageData.imageUrl = imageUrl;
+        }
+
+        // Add quoted message if exists
+        if (quotedMessage) {
+          messageData.quotedMessage = {
+            id: quotedMessage.id,
+            sender: quotedMessage.sender,
+            text: quotedMessage.text,
+          };
+          clearQuotedMessage();
+        }
+
+        try {
+          // Save to Firebase
+          await messagesRef.child(messageId).set(messageData);
+
+          // Save to local storage
+          saveMessageToLocalStorage(messageData);
+
+          // Clear input
+          messageInput.value = "";
+          messageInput.style.height = "45px";
+          sendBtn.disabled = true;
+
+          // Scroll to bottom
+          setTimeout(() => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 100);
+        } catch (error) {
+          console.error("Error sending message:", error);
+          showToast("Failed to send message. Please try again.", "error");
+        }
+      }
+
+      // Send image
+      async function sendImage(file) {
+        if (!file) return;
+
+        // Check if user is verified
+        if (!isUserVerified) {
+          showToast(
+            "Hi love you're not verified you cant send images",
+            "error"
+          );
+          return;
+        }
+
+        // Check file type
+        if (!file.type.match("image.*")) {
+          showToast("Please select an image file", "error");
+          return;
+        }
+
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          showToast("Image must be less than 5MB", "error");
+          return;
+        }
+
+        try {
+          // Show loading message
+          const loadingMessage = createSystemMessage("Uploading image...");
+          messagesContainer.appendChild(loadingMessage);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+          // Upload to Firebase Storage
+          const storageRef = storage.ref(
+            `chat_images/${chatId}/${Date.now()}_${file.name}`
+          );
+          const uploadTask = storageRef.put(file);
+
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Progress
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              loadingMessage.textContent = `Uploading image... ${Math.round(
+                progress
+              )}%`;
+            },
+            (error) => {
+              // Error
+              loadingMessage.remove();
+              showToast("Upload failed. Please try again.", "error");
+              console.error("Upload error:", error);
+            },
+            () => {
+              // Success
+              uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                loadingMessage.remove();
+                sendMessage(messageInput.value, downloadURL);
+              });
+            }
+          );
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          showToast("Failed to upload image. Please try again.", "error");
+        }
+      }
+
+      // Send love animation
+      function sendLoveAnimation() {
+        // Create love animation
+        const love = document.createElement("div");
+        love.className = "love-animation";
+        love.innerHTML = "❤️";
+        love.style.left = `${Math.random() * 80 + 10}%`;
+        love.style.bottom = "100px";
+        document.body.appendChild(love);
+
+        setTimeout(() => {
+          love.remove();
+        }, 2000);
+
+        // Send love message
+        sendMessage("❤️");
+      }
+
+      // Send token gift
+      async function sendTokenGift() {
+        if (!selectedTokenAmount) {
+          showToast("Please select a token amount", "error");
+          return;
+        }
+
+        if (selectedTokenAmount > userData.accountInfo.tokens) {
+          showToast("You don't have enough tokens", "error");
+          return;
+        }
+
+        try {
+          // Update user tokens
+          const userRef = database.ref(`loveu/users/${currentUser.uid}`);
+          await userRef
+            .child("accountInfo/tokens")
+            .transaction((currentTokens) => {
+              return (currentTokens || 0) - selectedTokenAmount;
+            });
+
+          // Create gift message
+          const giftMessage = tokenMessage.value.trim()
+            ? `Sent ${selectedTokenAmount} tokens: ${tokenMessage.value.trim()}`
+            : `Sent ${selectedTokenAmount} tokens`;
+
+          // Send system message
+          const giftData = {
+            id: Date.now().toString(),
+            sender: "system",
+            text: `${userData.personalInfo.username} sent ${selectedTokenAmount} tokens to ${partnerData.personalInfo.username}`,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            isGift: true,
+            giftAmount: selectedTokenAmount,
+          };
+
+          await messagesRef.child(giftData.id).set(giftData);
+
+          // Send user message if there's text
+          if (tokenMessage.value.trim()) {
+            sendMessage(tokenMessage.value.trim());
+          }
+
+          // Close modal
+          giftModal.classList.remove("active");
+          tokenMessage.value = "";
+          selectedTokenAmount = null;
+          tokenAmountBtns.forEach((btn) => btn.classList.remove("selected"));
+          sendTokenBtn.disabled = true;
+
+          showToast(
+            `Successfully sent ${selectedTokenAmount} tokens!`,
+            "success"
+          );
+        } catch (error) {
+          console.error("Error sending tokens:", error);
+          showToast("Failed to send tokens. Please try again.", "error");
+        }
+      }
+
+      // Save message to local storage
+      function saveMessageToLocalStorage(message) {
+        // Add message to local array
+        localMessages.push(message);
+
+        // Save to local storage
+        localStorage.setItem(`chat_${chatId}`, JSON.stringify(localMessages));
+      }
+
+      // Load messages from local storage
+      function loadMessagesFromLocalStorage() {
+        const storedMessages = localStorage.getItem(`chat_${chatId}`);
+        if (storedMessages) {
+          localMessages = JSON.parse(storedMessages);
+          return localMessages;
+        }
+        return [];
+      }
+
+      // Initialize chat
+      async function initializeChat() {
+        try {
+          // Get chat partner ID from local storage
+          partnerId = localStorage.getItem("chatPartnerId");
+          if (!partnerId) {
+            window.location.href = "main.html";
+            return;
+          }
+
+          // Set chat ID (combination of user IDs)
+          const ids = [currentUser.uid, partnerId].sort();
+          chatId = `${ids[0]}_${ids[1]}`;
+
+          // Set messages reference
+          messagesRef = database.ref(`loveu/chats/${chatId}/messages`);
+
+          // Get partner data
+          const partnerSnapshot = await database
+            .ref(`loveu/users/${partnerId}`)
+            .once("value");
+          partnerData = partnerSnapshot.val();
+
+          if (partnerData) {
+            // Update partner info in UI
+            partnerName.textContent =
+              partnerData.personalInfo.username || "Chat Partner";
+
+            if (partnerData.personalInfo.profileImageUrl) {
+              partnerAvatar.src = partnerData.personalInfo.profileImageUrl;
+            }
+
+            if (partnerData.accountInfo.verified) {
+              partnerVerifiedBadge.style.display = "inline";
+            }
+
+            // Check for special email accounts and display followers
+            if (partnerData.personalInfo.email === "etherxchange6@gmail.com") {
+              followerCount.textContent = "567,653";
+              partnerFollowers.style.display = "block";
+            } else if (
+              partnerData.personalInfo.email === "fuwukari@gmail.com"
+            ) {
+              followerCount.textContent = "976,211";
+              partnerFollowers.style.display = "block";
+            }
+          } else {
+            // Use name from local storage if partner data not found
+            const storedPartnerName = localStorage.getItem("chatPartnerName");
+            if (storedPartnerName) {
+              partnerName.textContent = storedPartnerName;
+            }
+          }
+
+          // Load messages from local storage first
+          const localStorageMessages = loadMessagesFromLocalStorage();
+          if (localStorageMessages.length > 0) {
+            renderMessages(localStorageMessages);
+          }
+
+          // Listen for new messages
+          messagesListener = messagesRef.on("child_added", (snapshot) => {
+            const message = snapshot.val();
+
+            // Check if message already exists in local storage
+            const messageExists = localMessages.some(
+              (m) => m.id === message.id
+            );
+            if (!messageExists) {
+              // Add to local storage
+              saveMessageToLocalStorage(message);
+
+              // Render message
+              renderMessage(message);
+
+              // Scroll to bottom if user is at bottom
+              const isAtBottom =
+                messagesContainer.scrollHeight - messagesContainer.scrollTop <=
+                messagesContainer.clientHeight + 100;
+              if (isAtBottom) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              }
+            }
+          });
+        } catch (error) {
+          console.error("Error initializing chat:", error);
+          showToast("Failed to load chat. Please try again.", "error");
+        }
+      }
+
+      // Render messages
+      function renderMessages(messages) {
+        // Clear container
+        messagesContainer.innerHTML = "";
+
+        // Sort messages by timestamp
+        const sortedMessages = [...messages].sort(
+          (a, b) => a.timestamp - b.timestamp
+        );
+
+        // Render each message
+        sortedMessages.forEach((message) => {
+          renderMessage(message, false);
+        });
+
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      // Render single message
+      function renderMessage(message, scrollToBottom = true) {
+        let messageElement;
+
+        if (message.sender === "system") {
+          // System message
+          messageElement = createSystemMessage(message.text);
+        } else {
+          // User message
+          const isCurrentUser = message.sender === currentUser.uid;
+          messageElement = createMessageElement(message, isCurrentUser);
+        }
+
+        messagesContainer.appendChild(messageElement);
+
+        if (scrollToBottom) {
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+      }
+
+      // Auto-resize textarea
+      function autoResizeTextarea() {
+        messageInput.style.height = "45px";
+        messageInput.style.height =
+          (messageInput.scrollHeight > 120 ? 120 : messageInput.scrollHeight) +
+          "px";
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", () => {
+        createHearts();
+
+        // Check auth state
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            currentUser = user;
+
+            // Get user data
+            const userSnapshot = await database
+              .ref(`loveu/users/${user.uid}`)
+              .once("value");
+            userData = userSnapshot.val();
+
+            if (userData) {
+              // Update user info in UI
+              userBalance.textContent =
+                userData.accountInfo.userbalance.toFixed(2);
+              userTokens.textContent = userData.accountInfo.tokens;
+              modalTokenBalance.textContent = userData.accountInfo.tokens;
+
+              // Check if user is verified
+              isUserVerified = userData.accountInfo.verified || false;
+            }
+
+            // Initialize chat
+            initializeChat();
+          } else {
+            // User not logged in, redirect to login
+            window.location.href = "registration.html";
+          }
+        });
+
+        // Event listeners
+        backBtn.addEventListener("click", () => {
+          window.location.href = "main.html";
+        });
+
+        // Message input events
+        messageInput.addEventListener("input", () => {
+          sendBtn.disabled = messageInput.value.trim() === "";
+          autoResizeTextarea();
+        });
+
+        messageInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            if (!sendBtn.disabled) {
+              sendMessage(messageInput.value);
+            }
+          }
+        });
+
+        // Send button
+        sendBtn.addEventListener("click", () => {
+          sendMessage(messageInput.value);
+        });
+
+        // Image button
+        imageBtn.addEventListener("click", () => {
+          if (!isUserVerified) {
+            showToast(
+              "Hi love you're not verified you cant send images",
+              "error"
+            );
+            return;
+          }
+          imageInput.click();
+        });
+
+        // Image input
+        imageInput.addEventListener("change", (e) => {
+          if (e.target.files.length > 0) {
+            sendImage(e.target.files[0]);
+            // Clear input
+            e.target.value = "";
+          }
+        });
+
+        // Love button
+        loveBtn.addEventListener("click", sendLoveAnimation);
+
+        // Quote preview close
+        quotePreviewClose.addEventListener("click", clearQuotedMessage);
+
+        // Gift button
+        giftBtn.addEventListener("click", () => {
+          giftModal.classList.add("active");
+        });
+
+        // Gift modal close
+        giftModalClose.addEventListener("click", () => {
+          giftModal.classList.remove("active");
+        });
+
+        // Token amount buttons
+        tokenAmountBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            tokenAmountBtns.forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            selectedTokenAmount = parseInt(btn.dataset.amount);
+            sendTokenBtn.disabled = false;
+          });
+        });
+
+        // Send token button
+        sendTokenBtn.addEventListener("click", sendTokenGift);
+
+        // Image preview close
+        imagePreviewClose.addEventListener("click", () => {
+          imagePreviewModal.classList.remove("active");
+        });
+
+        // Call and video buttons (placeholders)
+        callBtn.addEventListener("click", () => {
+          showToast("Voice call feature coming soon!", "info");
+        });
+
+        videoBtn.addEventListener("click", () => {
+          showToast("Video call feature coming soon!", "info");
+        });
+
+        // Emoji button (placeholder)
+        emojiBtn.addEventListener("click", () => {
+          showToast("Emoji picker coming soon!", "info");
+        });
+      });
+
+      // Clean up on page unload
+      window.addEventListener("beforeunload", () => {
+        // Remove Firebase listeners
+        if (messagesRef && messagesListener) {
+          messagesRef.off("child_added", messagesListener);
+        }
+      });
+    </script>
+  </body>
+</html>

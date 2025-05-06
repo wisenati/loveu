@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love U - Settings</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #ff2d75;
+        --secondary-color: #ff6b9e;
+        --dark-pink: #d60057;
+        --light-pink: #ffc0d5;
+        --white: #ffffff;
+        --text-color: #333333;
+        --error-color: #e74c3c;
+        --success-color: #2ecc71;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --light-gray: #f1f1f1;
+        --dark-gray: #777777;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: var(--text-color);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .page-container {
+        max-width: 100%;
+        padding-bottom: 30px;
+      }
+
+      /* Hearts Animation Background */
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.6);
+        animation: float 6s ease-in infinite;
+        font-size: 1.5rem;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Header Styles */
+      .header {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        animation: fadeInDown 0.5s ease-out;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        animation: pulse 2s infinite;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: #fff;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .user-stats {
+        display: flex;
+        gap: 10px;
+      }
+
+      .stat-chip {
+        padding: 8px 15px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .stat-chip i {
+        color: var(--primary-color);
+      }
+
+      /* Main Content */
+      .content-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 0 20px;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .settings-title {
+        color: var(--white);
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .settings-tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 5px;
+      }
+
+      .settings-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-btn {
+        padding: 12px 20px;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: var(--white);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0 5px;
+        border-radius: 30px;
+        min-width: 120px;
+        text-align: center;
+      }
+
+      .tab-btn.active {
+        background-color: var(--white);
+        color: var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+      }
+
+      .tab-btn:hover:not(.active) {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .settings-card {
+        background-color: var(--card-bg);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      /* Profile Tab Styles */
+      .profile-picture-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .profile-picture-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 15px;
+        border: 3px solid var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .profile-picture {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .upload-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .upload-overlay:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      .upload-overlay i {
+        color: var(--white);
+        font-size: 1.2rem;
+      }
+
+      .upload-btn {
+        display: none;
+      }
+
+      .profile-form {
+        width: 100%;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(255, 45, 117, 0.2);
+      }
+
+      .save-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
+      }
+
+      .save-btn:hover {
+        background-color: var(--dark-pink);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
+      }
+
+      .save-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Tokens Tab Styles */
+      .token-balance {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .token-amount {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .token-label {
+        font-size: 1.1rem;
+        color: var(--dark-gray);
+      }
+
+      .token-packages {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .token-package {
+        background-color: var(--white);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+
+      .token-package:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-color);
+      }
+
+      .token-package.selected {
+        border-color: var(--primary-color);
+        background-color: rgba(255, 45, 117, 0.05);
+      }
+
+      .package-tokens {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+      }
+
+      .package-price {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .package-description {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+
+      .exchange-section {
+        margin-top: 20px;
+      }
+
+      .exchange-form {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .exchange-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px 0 0 8px;
+        font-size: 1rem;
+      }
+
+      .exchange-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      .exchange-btn {
+        padding: 12px 20px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 0 8px 8px 0;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .exchange-btn:hover {
+        background-color: var(--dark-pink);
+      }
+
+      .exchange-rate {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        margin-bottom: 15px;
+      }
+
+      /* Verification Tab Styles */
+      .verification-status {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: var(--light-gray);
+      }
+
+      .status-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 15px;
+        font-size: 1.5rem;
+      }
+
+      .status-verified {
+        background-color: rgba(46, 204, 113, 0.2);
+        color: var(--success-color);
+      }
+
+      .status-unverified {
+        background-color: rgba(231, 76, 60, 0.2);
+        color: var(--error-color);
+      }
+
+      .status-info {
+        flex: 1;
+      }
+
+      .status-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .status-description {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+
+      .verification-benefits {
+        margin-bottom: 25px;
+      }
+
+      .benefits-list {
+        list-style: none;
+      }
+
+      .benefit-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+      }
+
+      .benefit-item:hover {
+        transform: translateX(5px);
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .benefit-icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(255, 45, 117, 0.2);
+        color: var(--primary-color);
+        margin-right: 10px;
+        font-size: 0.9rem;
+      }
+
+      .verify-btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        text-align: center;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
+      }
+
+      .verify-btn:hover {
+        background-color: var(--dark-pink);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
+      }
+
+      .verify-btn:active {
+        transform: translateY(1px);
+      }
+
+      .verify-btn:disabled {
+        background-color: var(--dark-gray);
+        transform: none;
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+
+      /* Deposit Tab Styles */
+      .crypto-address {
+        background-color: var(--light-gray);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .address-label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        margin-bottom: 8px;
+      }
+
+      .address-value {
+        font-size: 1rem;
+        font-family: monospace;
+        word-break: break-all;
+        margin-bottom: 10px;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        background-color: var(--white);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        background-color: var(--primary-color);
+        color: var(--white);
+        transform: scale(1.1);
+      }
+
+      .qr-code {
+        width: 200px;
+        height: 200px;
+        background-color: var(--white);
+        margin: 0 auto 20px;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .qr-code img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .deposit-instructions {
+        margin-bottom: 25px;
+      }
+
+      .instruction-step {
+        display: flex;
+        margin-bottom: 15px;
+      }
+
+      .step-number {
+        width: 30px;
+        height: 30px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .step-text {
+        flex: 1;
+        padding-top: 5px;
+      }
+
+      .deposit-history {
+        background-color: var(--white);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .history-table th,
+      .history-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .history-table th {
+        background-color: rgba(255, 45, 117, 0.1);
+        color: var(--text-color);
+        font-weight: 600;
+      }
+
+      .history-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .history-table tr:hover td {
+        background-color: rgba(0, 0, 0, 0.01);
+      }
+
+      .status-pending {
+        color: #f39c12;
+      }
+
+      .status-completed {
+        color: var(--success-color);
+      }
+
+      .status-failed {
+        color: var(--error-color);
+      }
+
+      /* Notifications and Alerts */
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 10px;
+        color: var(--white);
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.5s ease;
+      }
+
+      .notification.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .notification.success {
+        background-color: var(--success-color);
+      }
+
+      .notification.error {
+        background-color: var(--error-color);
+      }
+
+      .notification.info {
+        background-color: var(--primary-color);
+      }
+
+      /* Loading Spinner */
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+      }
+
+      .loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--white);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background-color: var(--white);
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active .modal {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .modal-close {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+        background-color: var(--light-gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+      }
+
+      .modal-close:hover {
+        background-color: var(--light-pink);
+        color: var(--primary-color);
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+      }
+
+      .modal-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-btn-cancel {
+        background-color: var(--light-gray);
+        color: var(--text-color);
+      }
+
+      .modal-btn-confirm {
+        background-color: var(--primary-color);
+        color: var(--white);
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .header {
+          padding: 12px 15px;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+        }
+
+        .logo-img {
+          width: 35px;
+          height: 35px;
+        }
+
+        .content-container {
+          padding: 0 15px;
+          margin: 20px auto;
+        }
+
+        .settings-card {
+          padding: 20px;
+        }
+
+        .token-packages {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 15px;
+        }
+
+        .settings-tabs {
+          justify-content: flex-start;
+        }
+
+        .tab-btn {
+          min-width: 100px;
+          padding: 10px 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .settings-title {
+          font-size: 1.7rem;
+        }
+
+        .token-packages {
+          grid-template-columns: 1fr;
+        }
+
+        .user-stats {
+          display: none;
+        }
+
+        .profile-picture-container {
+          width: 120px;
+          height: 120px;
+        }
+
+        .qr-code {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hearts Background Animation -->
+    <div class="hearts" id="hearts"></div>
+
+    <div class="page-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo-container">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/176/176670.png"
+            alt="Love U Logo"
+            class="logo-img"
+          />
+          <h1 class="logo-text">Love U</h1>
+        </div>
+
+        <div class="user-meta">
+          <div class="user-stats">
+            <div class="stat-chip">
+              <i class="fas fa-dollar-sign"></i>
+              <span id="userBalance">0.00</span>
+            </div>
+            <div class="stat-chip">
+              <i class="fas fa-gem"></i>
+              <span id="userTokens">0</span> Tokens
+            </div>
+            <div class="back-btn" id="backBtn">
+              <i class="fas fa-arrow-left"></i>
+            </div>
+          </div>
+
+          <!-- <div class="back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i>
+          </div> -->
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="content-container">
+        <h1 class="settings-title animate__animated animate__fadeInDown">
+          Account Settings
+        </h1>
+
+        <!-- Settings Tabs -->
+        <div class="settings-tabs animate__animated animate__fadeIn">
+          <button class="tab-btn active" data-tab="profile">Profile</button>
+          <button class="tab-btn" data-tab="tokens">Tokens</button>
+          <button class="tab-btn" data-tab="verification">Verification</button>
+          <button class="tab-btn" data-tab="deposit">Deposit</button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profileTab" class="tab-content active">
+          <div class="settings-card animate__animated animate__fadeIn">
+            <h2 class="card-title">Profile Information</h2>
+            <div class="profile-picture-section">
+              <div class="profile-picture-container">
+                <img
+                  src="/api/placeholder/400/320"
+                  alt="Profile Picture"
+                  id="profileImage"
+                  class="profile-picture"
+                />
+                <label for="uploadProfilePic" class="upload-overlay">
+                  <i class="fas fa-camera"></i>
+                </label>
+                <input
+                  type="file"
+                  id="uploadProfilePic"
+                  class="upload-btn"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+            <form id="profileForm" class="profile-form">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  class="form-control"
+                  placeholder="Enter your username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Enter your email"
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  class="form-control"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+              <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Tokens Tab -->
+        <div id="tokensTab" class="tab-content">
+          <div class="settings-card animate__animated animate__fadeIn">
+            <h2 class="card-title">Token Balance</h2>
+            <div class="token-balance">
+              <div class="token-amount" id="tokenBalance">0</div>
+              <div class="token-label">Love U Tokens</div>
+            </div>
+
+            <h3 class="card-title">Buy More Tokens</h3>
+            <div class="token-packages">
+              <div class="token-package" data-tokens="50" data-price="10">
+                <div class="package-tokens">50</div>
+                <div class="package-price">$10.00</div>
+                <div class="package-description">Basic Package</div>
+              </div>
+              <div class="token-package" data-tokens="120" data-price="20">
+                <div class="package-tokens">120</div>
+                <div class="package-price">$20.00</div>
+                <div class="package-description">Popular Choice</div>
+              </div>
+              <div class="token-package" data-tokens="300" data-price="50">
+                <div class="package-tokens">300</div>
+                <div class="package-price">$50.00</div>
+                <div class="package-description">Best Value</div>
+              </div>
+              <div class="token-package" data-tokens="700" data-price="100">
+                <div class="package-tokens">700</div>
+                <div class="package-price">$100.00</div>
+                <div class="package-description">Premium Package</div>
+              </div>
+            </div>
+
+            <h3 class="card-title">Exchange Balance to Tokens</h3>
+            <div class="exchange-section">
+              <div class="exchange-rate">Exchange rate: $1 = 5 Tokens</div>
+              <form class="exchange-form" id="exchangeForm">
+                <input
+                  type="number"
+                  class="exchange-input"
+                  id="exchangeAmount"
+                  placeholder="Enter amount in $"
+                  min="1"
+                  step="1"
+                />
+                <button type="submit" class="exchange-btn">Exchange</button>
+              </form>
+              <div id="exchangeResult" class="exchange-rate"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification Tab -->
+        <div id="verificationTab" class="tab-content">
+          <div class="settings-card animate__animated animate__fadeIn">
+            <h2 class="card-title">Account Verification</h2>
+            <div class="verification-status">
+              <div class="status-icon status-unverified" id="verificationIcon">
+                <i class="fas fa-times"></i>
+              </div>
+              <div class="status-info">
+                <div class="status-title" id="verificationStatus">
+                  Not Verified
+                </div>
+                <div class="status-description" id="verificationDescription">
+                  Get verified to unlock premium features and increase your
+                  trust score.
+                </div>
+              </div>
+            </div>
+
+            <h3 class="card-title">Verification Benefits</h3>
+            <div class="verification-benefits">
+              <ul class="benefits-list">
+                <li class="benefit-item">
+                  <div class="benefit-icon"><i class="fas fa-check"></i></div>
+                  <div class="benefit-text">
+                    Increased visibility in search results
+                  </div>
+                </li>
+                <li class="benefit-item">
+                  <div class="benefit-icon"><i class="fas fa-check"></i></div>
+                  <div class="benefit-text">Verified badge on your profile</div>
+                </li>
+                <li class="benefit-item">
+                  <div class="benefit-icon"><i class="fas fa-check"></i></div>
+                  <div class="benefit-text">
+                    Higher trust score from other users
+                  </div>
+                </li>
+                <li class="benefit-item">
+                  <div class="benefit-icon"><i class="fas fa-check"></i></div>
+                  <div class="benefit-text">Access to premium features</div>
+                </li>
+                <li class="benefit-item">
+                  <div class="benefit-icon"><i class="fas fa-check"></i></div>
+                  <div class="benefit-text">Priority customer support</div>
+                </li>
+              </ul>
+            </div>
+
+            <button class="verify-btn" id="verifyBtn">
+              Get Verified for $20
+            </button>
+          </div>
+        </div>
+
+        <!-- Deposit Tab -->
+        <div id="depositTab" class="tab-content">
+          <div class="settings-card animate__animated animate__fadeIn">
+            <h2 class="card-title">Deposit Funds</h2>
+
+            <div class="crypto-address">
+              <span class="address-label"
+                >Your unique USDT deposit address (TRON TRC20):</span
+              >
+              <div class="address-value" id="cryptoAddress">
+                TMUDuZzsL7AQ578D3dHGr5vEVXyB2c7XWz
+              </div>
+              <button class="copy-btn" id="copyAddressBtn">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+
+            <div class="qr-code">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TMUDuZzsL7AQ578D3dHGr5vEVXyB2c7XWz"
+                alt="QR Code"
+                id="qrCodeImg"
+              />
+            </div>
+
+            <div class="deposit-instructions">
+              <h3 class="card-title">How to Deposit</h3>
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                  Copy the USDT (TRC20) address above or scan the QR code
+                </div>
+              </div>
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                  Send USDT (TRC20) to this address from your wallet or exchange
+                </div>
+              </div>
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                  Minimum deposit: $10.00 (Network fees may apply)
+                </div>
+              </div>
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-text">
+                  Your balance will update automatically after 3 network
+                  confirmations
+                </div>
+              </div>
+            </div>
+
+            <h3 class="card-title">Deposit History</h3>
+            <div class="deposit-history">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="depositHistoryBody">
+                  <tr>
+                    <td colspan="3" style="text-align: center">
+                      No deposit history yet
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+      <span id="notificationMessage"></span>
+    </div>
+
+    <!-- Modal for Confirmation -->
+    <div class="modal-overlay" id="confirmationModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Confirm Action</h3>
+          <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          Are you sure you want to proceed with this action?
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn modal-btn-cancel" id="modalCancel">
+            Cancel
+          </button>
+          <button class="modal-btn modal-btn-confirm" id="modalConfirm">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+
+    <script>
+      // Firebase configuration (same as registration.html)
+      const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+      const storage = firebase.storage();
+
+      // DOM Elements
+      const backBtn = document.getElementById("backBtn");
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const profileForm = document.getElementById("profileForm");
+      const usernameInput = document.getElementById("username");
+      const emailInput = document.getElementById("email");
+      const phoneInput = document.getElementById("phone");
+      const profileImage = document.getElementById("profileImage");
+      const uploadProfilePic = document.getElementById("uploadProfilePic");
+      const tokenBalanceEl = document.getElementById("tokenBalance");
+      const userBalanceEl = document.getElementById("userBalance");
+      const userTokensEl = document.getElementById("userTokens");
+      const tokenPackages = document.querySelectorAll(".token-package");
+      const exchangeForm = document.getElementById("exchangeForm");
+      const exchangeAmount = document.getElementById("exchangeAmount");
+      const exchangeResult = document.getElementById("exchangeResult");
+      const verificationStatus = document.getElementById("verificationStatus");
+      const verificationDescription = document.getElementById(
+        "verificationDescription"
+      );
+      const verificationIcon = document.getElementById("verificationIcon");
+      const verifyBtn = document.getElementById("verifyBtn");
+      const cryptoAddress = document.getElementById("cryptoAddress");
+      const copyAddressBtn = document.getElementById("copyAddressBtn");
+      const qrCodeImg = document.getElementById("qrCodeImg");
+      const depositHistoryBody = document.getElementById("depositHistoryBody");
+      const notification = document.getElementById("notification");
+      const notificationMessage = document.getElementById(
+        "notificationMessage"
+      );
+      const confirmationModal = document.getElementById("confirmationModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalBody = document.getElementById("modalBody");
+      const modalClose = document.getElementById("modalClose");
+      const modalCancel = document.getElementById("modalCancel");
+      const modalConfirm = document.getElementById("modalConfirm");
+
+      // Global variables
+      let currentUser = null;
+      let userData = null;
+      let selectedTokenPackage = null;
+      let currentAction = null;
+
+      // Create floating hearts
+      function createHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        const heartCount = 15;
+
+        for (let i = 0; i < heartCount; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.top = Math.random() * 100 + "vh";
+          heart.style.animationDuration = 3 + Math.random() * 7 + "s";
+          heart.style.animationDelay = Math.random() * 5 + "s";
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      // Show notification
+      function showNotification(message, type = "info") {
+        notification.className = `notification ${type}`;
+        notificationMessage.textContent = message;
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      // Show modal
+      function showModal(title, message, action) {
+        modalTitle.textContent = title;
+        modalBody.textContent = message;
+        currentAction = action;
+        confirmationModal.classList.add("active");
+      }
+
+      // Hide modal
+      function hideModal() {
+        confirmationModal.classList.remove("active");
+        currentAction = null;
+      }
+
+      // Tab switching
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.dataset.tab;
+
+          // Update active tab button
+          tabBtns.forEach((t) => t.classList.remove("active"));
+          btn.classList.add("active");
+
+          // Update active tab content
+          tabContents.forEach((content) => {
+            content.classList.remove("active");
+            if (content.id === `${tabId}Tab`) {
+              content.classList.add("active");
+            }
+          });
+        });
+      });
+
+      // Back button
+      backBtn.addEventListener("click", () => {
+        window.location.href = "main.html";
+      });
+
+      // Copy crypto address
+      copyAddressBtn.addEventListener("click", () => {
+        navigator.clipboard
+          .writeText(cryptoAddress.textContent)
+          .then(() => {
+            showNotification("Address copied to clipboard!", "success");
+          })
+          .catch((err) => {
+            showNotification("Failed to copy address", "error");
+            console.error("Failed to copy address: ", err);
+          });
+      });
+
+      // Token package selection
+      tokenPackages.forEach((pkg) => {
+        pkg.addEventListener("click", () => {
+          tokenPackages.forEach((p) => p.classList.remove("selected"));
+          pkg.classList.add("selected");
+          selectedTokenPackage = {
+            tokens: parseInt(pkg.dataset.tokens),
+            price: parseInt(pkg.dataset.price),
+          };
+        });
+      });
+
+      // Exchange form submission
+      exchangeForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const amount = parseFloat(exchangeAmount.value);
+
+        if (!amount || amount <= 0) {
+          showNotification("Please enter a valid amount", "error");
+          return;
+        }
+
+        if (amount > userData.accountInfo.userbalance) {
+          showNotification("Insufficient balance", "error");
+          return;
+        }
+
+        showModal(
+          "Confirm Exchange",
+          `Are you sure you want to exchange $${amount} for ${
+            amount * 5
+          } tokens?`,
+          "exchange"
+        );
+      });
+
+      // Verify button click
+      verifyBtn.addEventListener("click", () => {
+        if (userData.accountInfo.verified) {
+          showNotification("Your account is already verified", "info");
+          return;
+        }
+
+        if (userData.accountInfo.userbalance < 20) {
+          showNotification(
+            "You need at least $20 in your balance to verify",
+            "error"
+          );
+          return;
+        }
+
+        showModal(
+          "Confirm Verification",
+          "Are you sure you want to verify your account for $20?",
+          "verify"
+        );
+      });
+
+      // Modal confirm button
+      modalConfirm.addEventListener("click", () => {
+        if (currentAction === "exchange") {
+          const amount = parseFloat(exchangeAmount.value);
+          const tokens = amount * 5;
+
+          // Update user data in Firebase
+          const updates = {};
+          updates["accountInfo/userbalance"] =
+            userData.accountInfo.userbalance - amount;
+          updates["accountInfo/tokens"] = userData.accountInfo.tokens + tokens;
+
+          database
+            .ref(`loveu/users/${currentUser.uid}`)
+            .update(updates)
+            .then(() => {
+              showNotification(
+                `Successfully exchanged $${amount} for ${tokens} tokens`,
+                "success"
+              );
+              exchangeAmount.value = "";
+              loadUserData();
+            })
+            .catch((error) => {
+              showNotification("Exchange failed. Please try again.", "error");
+              console.error("Exchange error:", error);
+            });
+        } else if (currentAction === "verify") {
+          // Update user data in Firebase
+          const updates = {};
+          updates["accountInfo/userbalance"] =
+            userData.accountInfo.userbalance - 20;
+          updates["accountInfo/verified"] = true;
+
+          database
+            .ref(`loveu/users/${currentUser.uid}`)
+            .update(updates)
+            .then(() => {
+              showNotification("Account verified successfully!", "success");
+              loadUserData();
+            })
+            .catch((error) => {
+              showNotification(
+                "Verification failed. Please try again.",
+                "error"
+              );
+              console.error("Verification error:", error);
+            });
+        }
+
+        hideModal();
+      });
+
+      // Modal close/cancel
+      modalClose.addEventListener("click", hideModal);
+      modalCancel.addEventListener("click", hideModal);
+
+      // Profile image upload
+      uploadProfilePic.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Check if image
+        if (!file.type.match("image.*")) {
+          showNotification("Please select an image file", "error");
+          return;
+        }
+
+        // Check file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+          showNotification("Image must be less than 2MB", "error");
+          return;
+        }
+
+        // Upload to Firebase Storage
+        const storageRef = storage.ref(`profile_pictures/${currentUser.uid}`);
+        const uploadTask = storageRef.put(file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Progress
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            // Error
+            showNotification("Upload failed. Please try again.", "error");
+            console.error("Upload error:", error);
+          },
+          () => {
+            // Success
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              // Update user profile with new image URL
+              database
+                .ref(
+                  `loveu/users/${currentUser.uid}/personalInfo/profileImageUrl`
+                )
+                .set(downloadURL)
+                .then(() => {
+                  showNotification("Profile picture updated!", "success");
+                  profileImage.src = downloadURL;
+                  loadUserData();
+                })
+                .catch((error) => {
+                  showNotification(
+                    "Failed to update profile. Please try again.",
+                    "error"
+                  );
+                  console.error("Database update error:", error);
+                });
+            });
+          }
+        );
+      });
+
+      // Profile form submission
+      profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const updates = {};
+        updates["personalInfo/username"] = usernameInput.value;
+        updates["personalInfo/phoneNumber"] = phoneInput.value;
+
+        database
+          .ref(`loveu/users/${currentUser.uid}`)
+          .update(updates)
+          .then(() => {
+            showNotification("Profile updated successfully!", "success");
+            loadUserData();
+          })
+          .catch((error) => {
+            showNotification(
+              "Failed to update profile. Please try again.",
+              "error"
+            );
+            console.error("Profile update error:", error);
+          });
+      });
+
+      // Load user data from Firebase
+      function loadUserData() {
+        const userRef = database.ref(`loveu/users/${currentUser.uid}`);
+
+        userRef.on("value", (snapshot) => {
+          userData = snapshot.val();
+
+          if (userData) {
+            // Update profile tab
+            usernameInput.value = userData.personalInfo.username || "";
+            emailInput.value = userData.personalInfo.email || "";
+            phoneInput.value = userData.personalInfo.phoneNumber || "";
+
+            if (userData.personalInfo.profileImageUrl) {
+              profileImage.src = userData.personalInfo.profileImageUrl;
+            }
+
+            // Update balance and tokens
+            userBalanceEl.textContent =
+              userData.accountInfo.userbalance.toFixed(2);
+            userTokensEl.textContent = userData.accountInfo.tokens;
+            tokenBalanceEl.textContent = userData.accountInfo.tokens;
+
+            // Update verification status
+            if (userData.accountInfo.verified) {
+              verificationStatus.textContent = "Verified";
+              verificationDescription.textContent =
+                "Your account is verified. Thank you!";
+              verificationIcon.className = "status-icon status-verified";
+              verificationIcon.innerHTML = '<i class="fas fa-check"></i>';
+              verifyBtn.textContent = "Verified";
+              verifyBtn.disabled = true;
+            } else {
+              verificationStatus.textContent = "Not Verified";
+              verificationDescription.textContent =
+                "Get verified to unlock premium features and increase your trust score.";
+              verificationIcon.className = "status-icon status-unverified";
+              verificationIcon.innerHTML = '<i class="fas fa-times"></i>';
+              verifyBtn.textContent = "Get Verified for $20";
+              verifyBtn.disabled = false;
+            }
+
+            // Load deposit history if exists
+            if (userData.depositHistory) {
+              depositHistoryBody.innerHTML = "";
+              Object.entries(userData.depositHistory).forEach(
+                ([key, deposit]) => {
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                <td>${new Date(deposit.timestamp).toLocaleString()}</td>
+                <td>$${deposit.amount.toFixed(2)}</td>
+                <td class="status-${deposit.status}">${
+                    deposit.status.charAt(0).toUpperCase() +
+                    deposit.status.slice(1)
+                  }</td>
+              `;
+                  depositHistoryBody.appendChild(row);
+                }
+              );
+            }
+          }
+        });
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", () => {
+        createHearts();
+
+        // Check auth state
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            currentUser = user;
+            loadUserData();
+          } else {
+            // User not logged in, redirect to login
+            window.location.href = "registration.html";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
