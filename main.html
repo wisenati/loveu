@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Love U - Home</title>
+    <title>Love U - Find Your Perfect Match</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -15,30 +21,45 @@
     <style>
       :root {
         --primary-color: #ff2d75;
-        --secondary-color: #ff6b9e;
-        --dark-pink: #d60057;
+        --primary-light: #ff6b9e;
+        --primary-dark: #d60057;
+        --primary-gradient: linear-gradient(135deg, #ff2d75, #ff6b9e);
+        --secondary-color: #6c63ff;
+        --secondary-light: #8f89ff;
+        --secondary-dark: #4b43d6;
+        --accent-color: #ffbd59;
         --light-pink: #ffc0d5;
+        --lighter-pink: #ffe6ee;
         --white: #ffffff;
+        --off-white: #f9f9f9;
         --text-color: #333333;
+        --text-light: #666666;
+        --text-lighter: #999999;
         --error-color: #e74c3c;
         --success-color: #2ecc71;
-        --shadow-color: rgba(0, 0, 0, 0.1);
-        --card-bg: rgba(255, 255, 255, 0.85);
+        --warning-color: #f39c12;
+        --info-color: #3498db;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 15px 60px rgba(0, 0, 0, 0.2);
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --card-radius: 20px;
+        --btn-radius: 50px;
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
       }
 
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Poppins", sans-serif;
       }
 
       body {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: var(--primary-gradient);
         color: var(--text-color);
         min-height: 100vh;
         position: relative;
@@ -47,7 +68,52 @@
 
       .page-container {
         max-width: 100%;
-        padding-bottom: 30px;
+        padding-bottom: 80px;
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        overflow: hidden;
+      }
+
+      .animated-bg::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 70%
+          ),
+          radial-gradient(
+            circle at 30% 40%,
+            rgba(255, 109, 151, 0.3) 0%,
+            rgba(255, 109, 151, 0) 60%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(255, 45, 117, 0.3) 0%,
+            rgba(255, 45, 117, 0) 60%
+          );
+        animation: rotateGradient 30s linear infinite;
+      }
+
+      @keyframes rotateGradient {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       /* Hearts Animation Background */
@@ -66,15 +132,22 @@
         color: rgba(255, 255, 255, 0.6);
         animation: float 6s ease-in infinite;
         font-size: 1.5rem;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
       }
 
       @keyframes float {
         0% {
-          transform: translateY(0) rotate(0deg);
+          transform: translateY(100vh) rotate(0deg) scale(0.8);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
           opacity: 1;
         }
         100% {
-          transform: translateY(-100vh) rotate(360deg);
+          transform: translateY(-20vh) rotate(360deg) scale(1.2);
           opacity: 0;
         }
       }
@@ -85,13 +158,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         position: sticky;
         top: 0;
         z-index: 100;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        animation: fadeInDown 0.5s ease-out;
+        box-shadow: var(--shadow-md);
+        animation: fadeInDown 0.5s var(--transition-normal);
       }
 
       .logo-container {
@@ -104,6 +178,7 @@
         height: 40px;
         margin-right: 10px;
         animation: pulse 2s infinite;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
       }
 
       .logo-text {
@@ -111,13 +186,14 @@
         font-weight: 800;
         background: linear-gradient(
           to right,
-          var(--dark-pink),
+          var(--primary-dark),
           var(--primary-color)
         );
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        letter-spacing: -0.5px;
       }
 
       .user-meta {
@@ -136,14 +212,41 @@
         justify-content: center;
         font-size: 1.3rem;
         color: var(--primary-color);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-md);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .menu-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          var(--primary-light) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity var(--transition-normal);
+      }
+
+      .menu-btn:hover::before {
+        opacity: 0.2;
       }
 
       .menu-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .menu-btn i {
+        position: relative;
+        z-index: 1;
       }
 
       .user-stats {
@@ -153,7 +256,7 @@
 
       .stat-chip {
         padding: 8px 15px;
-        border-radius: 50px;
+        border-radius: var(--btn-radius);
         background-color: rgba(255, 255, 255, 0.9);
         display: flex;
         align-items: center;
@@ -161,8 +264,15 @@
         font-weight: 600;
         font-size: 0.9rem;
         color: var(--text-color);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-        animation: fadeIn 0.5s ease-out;
+        box-shadow: var(--shadow-sm);
+        animation: fadeIn 0.5s var(--transition-normal);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
+      }
+
+      .stat-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
       }
 
       .stat-chip i {
@@ -176,29 +286,107 @@
         padding: 0 20px;
       }
 
+      /* Featured Profile Section */
+      .featured-section {
+        margin-bottom: 40px;
+        animation: fadeIn 0.8s var(--transition-normal);
+      }
+
+      .section-title {
+        color: var(--white);
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--white);
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
       .invitation-card {
         background-color: var(--card-bg);
-        border-radius: 20px;
+        border-radius: var(--card-radius);
         padding: 25px;
         margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        animation: fadeIn 0.8s ease-out;
+        box-shadow: var(--shadow-lg);
+        animation: fadeIn 0.8s var(--transition-normal);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .invitation-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 45, 117, 0.05) 0%,
+          rgba(255, 107, 158, 0.05) 100%
+        );
+        z-index: 0;
+      }
+
+      .invitation-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-xl);
       }
 
       .profile-header {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .profile-image-container {
+        position: relative;
+        margin-right: 15px;
       }
 
       .profile-image {
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         object-fit: cover;
         border: 3px solid var(--primary-color);
-        margin-right: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-normal);
+      }
+
+      .profile-image:hover {
+        transform: scale(1.05);
+      }
+
+      .profile-status {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--success-color);
+        border: 2px solid var(--white);
+        box-shadow: var(--shadow-sm);
       }
 
       .profile-info {
@@ -218,12 +406,34 @@
       .verified-badge {
         width: 20px;
         height: 20px;
+        animation: pulse 2s infinite;
+      }
+
+      .profile-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 5px;
+      }
+
+      .profile-stat {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.85rem;
+        color: var(--text-light);
+      }
+
+      .profile-stat i {
+        color: var(--primary-color);
       }
 
       .invitation-text {
         font-size: 1.1rem;
         color: var(--text-color);
         margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
       }
 
       .videos-container {
@@ -231,25 +441,56 @@
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         margin: 25px 0;
+        position: relative;
+        z-index: 1;
       }
 
       .video-card {
         position: relative;
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
         height: 200px;
+        cursor: pointer;
+      }
+
+      .video-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 50%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        z-index: 1;
+        opacity: 0.7;
+        transition: opacity var(--transition-normal);
       }
 
       .video-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .video-card:hover::before {
+        opacity: 0.5;
       }
 
       .video-thumbnail {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform var(--transition-normal);
+      }
+
+      .video-card:hover .video-thumbnail {
+        transform: scale(1.1);
       }
 
       .play-icon {
@@ -266,41 +507,423 @@
         justify-content: center;
         font-size: 1.5rem;
         color: var(--primary-color);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-md);
         opacity: 0.8;
-        transition: all 0.3s ease;
+        transition: all var(--transition-normal);
+        z-index: 2;
       }
 
       .video-card:hover .play-icon {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.1);
+        background-color: var(--white);
+      }
+
+      .video-duration {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 3px 8px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: var(--white);
+        border-radius: 4px;
+        font-size: 0.8rem;
+        z-index: 2;
+      }
+
+      .video-title {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: var(--white);
+        font-size: 0.9rem;
+        font-weight: 500;
+        z-index: 2;
+        max-width: 80%;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
       }
 
       .chat-btn {
         display: block;
         width: 100%;
         padding: 15px;
-        background-color: var(--primary-color);
+        background: var(--primary-gradient);
         color: var(--white);
         text-align: center;
-        border-radius: 50px;
+        border-radius: var(--btn-radius);
         font-size: 1.2rem;
         font-weight: 600;
         text-decoration: none;
         box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
-        transition: all 0.3s ease;
+        transition: all var(--transition-normal);
         border: none;
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .chat-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.7s var(--transition-normal);
+        z-index: -1;
+      }
+
+      .chat-btn:hover::before {
+        left: 100%;
       }
 
       .chat-btn:hover {
-        background-color: var(--dark-pink);
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
         transform: translateY(-3px);
         box-shadow: 0 12px 25px rgba(255, 45, 117, 0.5);
       }
 
       .chat-btn:active {
         transform: translateY(1px);
+        box-shadow: 0 5px 15px rgba(255, 45, 117, 0.4);
+      }
+
+      .chat-btn i {
+        margin-right: 8px;
+      }
+
+      /* Users List Section */
+      .users-section {
+        margin-top: 50px;
+        position: relative;
+      }
+
+      .users-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .user-card {
+        background-color: var(--card-bg);
+        border-radius: var(--card-radius);
+        padding: 20px;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--primary-gradient);
+      }
+
+      .user-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .user-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary-color);
+        margin-right: 12px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .user-info {
+        flex-grow: 1;
+      }
+
+      .user-name {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 3px;
+      }
+
+      .user-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+      }
+
+      .user-detail {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+        color: var(--text-light);
+        background-color: var(--lighter-pink);
+        padding: 3px 8px;
+        border-radius: 20px;
+      }
+
+      .user-detail i {
+        color: var(--primary-color);
+        font-size: 0.9rem;
+      }
+
+      .user-bio {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        margin-bottom: 15px;
+        line-height: 1.4;
+      }
+
+      .user-chat-btn {
+        padding: 10px;
+        background: var(--primary-gradient);
+        color: var(--white);
+        text-align: center;
+        border-radius: var(--btn-radius);
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
+        transition: all var(--transition-normal);
+        border: none;
+        cursor: pointer;
+        margin-top: auto;
+      }
+
+      .user-chat-btn:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 45, 117, 0.4);
+      }
+
+      .user-chat-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Categories Section */
+      .categories-section {
+        margin: 50px 0;
+      }
+
+      .categories-container {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
+      .categories-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .category-card {
+        min-width: 120px;
+        padding: 15px;
+        background-color: var(--card-bg);
+        border-radius: var(--card-radius);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-normal);
+        cursor: pointer;
+      }
+
+      .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .category-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.2rem;
+      }
+
+      .category-name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-color);
+        text-align: center;
+      }
+
+      /* Notification Badge */
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--error-color);
+        color: var(--white);
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Bottom Navigation */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-around;
+        padding: 12px 0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        transform: translateY(100%);
+        animation: slideUp 0.5s var(--transition-normal) forwards;
+        animation-delay: 0.5s;
+      }
+
+      @keyframes slideUp {
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-lighter);
+        text-decoration: none;
+        transition: all var(--transition-normal);
+        position: relative;
+      }
+
+      .nav-item.active {
+        color: var(--primary-color);
+      }
+
+      .nav-item i {
+        font-size: 1.3rem;
+      }
+
+      .nav-item span {
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .nav-item:hover {
+        color: var(--primary-color);
+        transform: translateY(-3px);
+      }
+
+      /* Video Modal */
+      .video-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-normal);
+      }
+
+      .video-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .video-modal-content {
+        width: 90%;
+        max-width: 800px;
+        background-color: var(--white);
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform var(--transition-normal);
+      }
+
+      .video-modal.active .video-modal-content {
+        transform: scale(1);
+      }
+
+      .video-player {
+        width: 100%;
+        aspect-ratio: 16/9;
+        background-color: #000;
+      }
+
+      .video-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all var(--transition-normal);
+      }
+
+      .video-modal-close:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+        transform: scale(1.1);
       }
 
       /* Loading Spinner */
@@ -320,10 +943,13 @@
         animation: spin 1s ease-in-out infinite;
       }
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
+      .mini-loader {
+        width: 15px;
+        height: 15px;
+        border: 2px solid rgba(255, 45, 117, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
       }
 
       /* Animations */
@@ -349,19 +975,42 @@
         }
       }
 
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       @keyframes pulse {
         0% {
           transform: scale(1);
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
         100% {
           transform: scale(1);
         }
       }
 
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
       /* Responsive */
+      @media (max-width: 1024px) {
+        .content-container {
+          padding: 0 15px;
+        }
+      }
+
       @media (max-width: 768px) {
         .header {
           padding: 12px 15px;
@@ -377,13 +1026,7 @@
         }
 
         .user-stats {
-          flex-direction: column;
-          gap: 5px;
-        }
-
-        .stat-chip {
-          padding: 5px 10px;
-          font-size: 0.8rem;
+          display: none;
         }
 
         .videos-container {
@@ -392,7 +1035,24 @@
         }
 
         .video-card {
-          height: 150px;
+          height: 180px;
+        }
+
+        .profile-image {
+          width: 70px;
+          height: 70px;
+        }
+
+        .profile-name {
+          font-size: 1.3rem;
+        }
+
+        .invitation-text {
+          font-size: 1rem;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
         }
       }
 
@@ -406,21 +1066,65 @@
         }
 
         .profile-image {
-          width: 55px;
-          height: 55px;
+          width: 60px;
+          height: 60px;
         }
 
         .profile-name {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
         }
 
         .invitation-text {
+          font-size: 0.9rem;
+        }
+
+        .chat-btn {
+          font-size: 1.1rem;
+          padding: 12px;
+        }
+
+        .user-card {
+          padding: 15px;
+        }
+
+        .user-avatar {
+          width: 50px;
+          height: 50px;
+        }
+
+        .user-name {
+          font-size: 1.1rem;
+        }
+
+        .user-bio {
+          font-size: 0.85rem;
+        }
+
+        .categories-container {
+          gap: 10px;
+        }
+
+        .category-card {
+          min-width: 100px;
+          padding: 12px;
+        }
+
+        .category-icon {
+          width: 35px;
+          height: 35px;
           font-size: 1rem;
+        }
+
+        .category-name {
+          font-size: 0.8rem;
         }
       }
     </style>
   </head>
   <body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
     <!-- Hearts Background Animation -->
     <div class="hearts" id="hearts"></div>
 
@@ -450,109 +1154,228 @@
 
           <div class="menu-btn" id="menuBtn">
             <i class="fas fa-bars"></i>
+            <span class="notification-badge">3</span>
           </div>
         </div>
       </header>
 
       <!-- Main Content -->
       <div class="content-container">
-        <div class="invitation-card">
-          <div class="profile-header">
-            <img
-              src="https://phantom-marca.unidadeditorial.es/584c983a4390908df19520471c87e2f9/resize/1320/f/jpg/assets/multimedia/imagenes/2023/05/13/16839716859428.jpg"
-              alt="Cardi b"
-              class="profile-image"
-              id="profileImage"
-            />
-            <div class="profile-info">
-              <div class="profile-name">
-                Cardi b
+        <!-- Featured Profile Section -->
+        <section class="featured-section">
+          <h2 class="section-title">Featured Profile</h2>
+
+          <div class="invitation-card">
+            <div class="profile-header">
+              <div class="profile-image-container">
                 <img
-                  src="https://cdn-icons-png.flaticon.com/128/12559/12559876.png"
-                  alt="Verified"
-                  class="verified-badge"
+                  src="https://phantom-marca.unidadeditorial.es/584c983a4390908df19520471c87e2f9/resize/1320/f/jpg/assets/multimedia/imagenes/2023/05/13/16839716859428.jpg"
+                  alt="Cardi B"
+                  class="profile-image"
+                  id="profileImage"
                 />
+                <div class="profile-status"></div>
               </div>
-              <p class="invitation-text">
-                Invited you to have a conversation with her
-              </p>
+              <div class="profile-info">
+                <div class="profile-name">
+                  Cardi B
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/128/12559/12559876.png"
+                    alt="Verified"
+                    class="verified-badge"
+                  />
+                </div>
+                <p class="invitation-text">
+                  Invited you to have a conversation with her
+                </p>
+                <div class="profile-meta">
+                  <div class="profile-stat">
+                    <i class="fas fa-users"></i>
+                    <span>3.2M followers</span>
+                  </div>
+                  <div class="profile-stat">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>New York, USA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="videos-container">
+              <!-- Video 1 -->
+              <div class="video-card" data-video="video1">
+                <img
+                  src="https://th.bing.com/th/id/OIP.dl9JcB2p3X8fZruVGsCPPgHaJQ?rs=1&pid=ImgDetMain"
+                  alt="Video 1"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:45</div>
+                <div class="video-title">Hey there! 👋</div>
+              </div>
+              <!-- Video 2 -->
+              <div class="video-card" data-video="video2">
+                <img
+                  src="https://th.bing.com/th/id/OIP.VpQcCt6Mp1uo1x6Shu8e8AHaFN?rs=1&pid=ImgDetMain"
+                  alt="Video 2"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">1:20</div>
+                <div class="video-title">About me</div>
+              </div>
+              <!-- Video 3 -->
+              <div class="video-card" data-video="video3">
+                <img
+                  src="https://th.bing.com/th/id/R.37b40a96a36ad7fb6f8a2c61f7d3f738?rik=AqraXIxeRHLkZw&riu=http%3a%2f%2fthatgrapejuice.net%2fwp-content%2fuploads%2f2018%2f02%2fcardi-blonde-thatgrapejuice.jpg&ehk=ouGOjoTNfvZpbwG8kWVNoDHSCCtbv5g1CVlMj0GjLsg%3d&risl=&pid=ImgRaw&r=0"
+                  alt="Video 3"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:58</div>
+                <div class="video-title">My favorite things</div>
+              </div>
+              <!-- Video 4 -->
+              <div class="video-card" data-video="video4">
+                <img
+                  src="https://th.bing.com/th/id/OIP.aR9Eg0RTkj0j9cIQwMAqEAHaE5?rs=1&pid=ImgDetMain"
+                  alt="Video 4"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">1:05</div>
+                <div class="video-title">Looking for someone special</div>
+              </div>
+              <!-- Video 5 -->
+              <div class="video-card" data-video="video5">
+                <img
+                  src="https://www.byrdie.com/thmb/vvBOxeEF7SspLhznqkiw_kr34CU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cardibbangsmain-8495240374d14734b96364c0ef20fede.jpg"
+                  alt="Video 5"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">0:32</div>
+                <div class="video-title">My perfect date</div>
+              </div>
+              <!-- Video 6 -->
+              <div class="video-card" data-video="video6">
+                <img
+                  src="https://th.bing.com/th/id/OIP.33a3EtCrNQ_VTguGcpHU6wHaEK?rs=1&pid=ImgDetMain"
+                  alt="Video 6"
+                  class="video-thumbnail"
+                />
+                <div class="play-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="video-duration">1:15</div>
+                <div class="video-title">Message for you</div>
+              </div>
+            </div>
+
+            <button class="chat-btn" id="chatBtn">
+              <i class="fas fa-comment-dots"></i> Chat with Cardi B
+            </button>
+          </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+          <h2 class="section-title">Browse Categories</h2>
+
+          <div class="categories-container">
+            <div class="category-card" data-category="nearby">
+              <div class="category-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="category-name">Nearby</div>
+            </div>
+            <div class="category-card" data-category="new">
+              <div class="category-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="category-name">New</div>
+            </div>
+            <div class="category-card" data-category="popular">
+              <div class="category-icon">
+                <i class="fas fa-fire"></i>
+              </div>
+              <div class="category-name">Popular</div>
+            </div>
+            <div class="category-card" data-category="verified">
+              <div class="category-icon">
+                <i class="fas fa-check"></i>
+              </div>
+              <div class="category-name">Verified</div>
+            </div>
+            <div class="category-card" data-category="online">
+              <div class="category-icon">
+                <i class="fas fa-circle"></i>
+              </div>
+              <div class="category-name">Online</div>
+            </div>
+            <div class="category-card" data-category="matches">
+              <div class="category-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="category-name">Matches</div>
             </div>
           </div>
+        </section>
 
-          <div class="videos-container">
-            <!-- Video 1 -->
-            <div class="video-card">
-              <img
-                src="https://th.bing.com/th/id/OIP.dl9JcB2p3X8fZruVGsCPPgHaJQ?rs=1&pid=ImgDetMain"
-                alt="Video 1"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <!-- Video 2 -->
-            <div class="video-card">
-              <img
-                src="https://th.bing.com/th/id/OIP.VpQcCt6Mp1uo1x6Shu8e8AHaFN?rs=1&pid=ImgDetMain"
-                alt="Video 2"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <!-- Video 3 -->
-            <div class="video-card">
-              <img
-                src="https://th.bing.com/th/id/R.37b40a96a36ad7fb6f8a2c61f7d3f738?rik=AqraXIxeRHLkZw&riu=http%3a%2f%2fthatgrapejuice.net%2fwp-content%2fuploads%2f2018%2f02%2fcardi-blonde-thatgrapejuice.jpg&ehk=ouGOjoTNfvZpbwG8kWVNoDHSCCtbv5g1CVlMj0GjLsg%3d&risl=&pid=ImgRaw&r=0"
-                alt="Video 3"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <!-- Video 4 -->
-            <div class="video-card">
-              <img
-                src="https://th.bing.com/th/id/OIP.aR9Eg0RTkj0j9cIQwMAqEAHaE5?rs=1&pid=ImgDetMain"
-                alt="Video 4"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <!-- Video 5 -->
-            <div class="video-card">
-              <img
-                src="https://www.byrdie.com/thmb/vvBOxeEF7SspLhznqkiw_kr34CU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cardibbangsmain-8495240374d14734b96364c0ef20fede.jpg"
-                alt="Video 5"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <!-- Video 6 -->
-            <div class="video-card">
-              <img
-                src="https://th.bing.com/th/id/OIP.33a3EtCrNQ_VTguGcpHU6wHaEK?rs=1&pid=ImgDetMain"
-                alt="Video 6"
-                class="video-thumbnail"
-              />
-              <div class="play-icon">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
+        <!-- Users List Section -->
+        <section class="users-section">
+          <h2 class="section-title">Discover People</h2>
+          <div id="usersList" class="users-grid">
+            <!-- Users will be populated dynamically -->
           </div>
+        </section>
+      </div>
+    </div>
 
-          <button class="chat-btn" id="chatBtn">Chat with Cardi b</button>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <!-- <a href="#" class="nav-item">
+        <i class="fas fa-search"></i>
+        <span>Discover</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-comment-dots"></i>
+        <span>Messages</span>
+        <span class="notification-badge">5</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-heart"></i>
+        <span>Matches</span>
+      </a> -->
+      <a href="#" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+      <div class="video-modal-content">
+        <div class="video-modal-close" id="videoModalClose">
+          <i class="fas fa-times"></i>
         </div>
-
-        <!-- Users List Section - Will be populated dynamically -->
-        <div id="usersList" class="users-list"></div>
+        <div class="video-player" id="videoPlayer">
+          <!-- Video will be loaded here -->
+        </div>
       </div>
     </div>
 
@@ -583,7 +1406,7 @@
       // Create floating hearts
       function createHearts() {
         const heartsContainer = document.getElementById("hearts");
-        const heartCount = 15;
+        const heartCount = 20;
 
         for (let i = 0; i < heartCount; i++) {
           const heart = document.createElement("div");
@@ -591,8 +1414,9 @@
           heart.innerHTML = "❤️";
           heart.style.left = Math.random() * 100 + "vw";
           heart.style.top = Math.random() * 100 + "vh";
-          heart.style.animationDuration = 3 + Math.random() * 7 + "s";
+          heart.style.animationDuration = 6 + Math.random() * 10 + "s";
           heart.style.animationDelay = Math.random() * 5 + "s";
+          heart.style.fontSize = 0.5 + Math.random() * 1.5 + "rem";
           heartsContainer.appendChild(heart);
         }
       }
@@ -605,10 +1429,10 @@
           // Show loader while fetching data
           document.getElementById(
             "userBalance"
-          ).innerHTML = `<div class="loader" style="width: 15px; height: 15px;"></div>`;
+          ).innerHTML = `<div class="mini-loader"></div>`;
           document.getElementById(
             "userTokens"
-          ).innerHTML = `<div class="loader" style="width: 15px; height: 15px;"></div>`;
+          ).innerHTML = `<div class="mini-loader"></div>`;
 
           // Get user data from database
           database
@@ -656,22 +1480,6 @@
             usersList.innerHTML = "";
 
             if (usersData) {
-              // Create heading for users section
-              const heading = document.createElement("h2");
-              heading.textContent = "Other Users You Might Like";
-              heading.style.color = "white";
-              heading.style.marginBottom = "20px";
-              heading.style.textAlign = "center";
-              heading.style.fontWeight = "600";
-              usersList.appendChild(heading);
-
-              // Create users grid
-              const usersGrid = document.createElement("div");
-              usersGrid.style.display = "grid";
-              usersGrid.style.gridTemplateColumns =
-                "repeat(auto-fill, minmax(280px, 1fr))";
-              usersGrid.style.gap = "20px";
-
               // Iterate through users
               Object.keys(usersData).forEach((userId) => {
                 const user = usersData[userId];
@@ -683,30 +1491,30 @@
 
                 // Create user card
                 const userCard = document.createElement("div");
-                userCard.classList.add("invitation-card");
+                userCard.classList.add("user-card");
                 userCard.style.animation = "fadeIn 0.8s ease-out";
                 userCard.style.animationDelay = "0.2s";
 
-                // Create profile header
-                const profileHeader = document.createElement("div");
-                profileHeader.classList.add("profile-header");
+                // Create user header
+                const userHeader = document.createElement("div");
+                userHeader.classList.add("user-header");
 
-                // Create profile image
-                const profileImage = document.createElement("img");
-                profileImage.classList.add("profile-image");
-                profileImage.src =
+                // Create user avatar
+                const userAvatar = document.createElement("img");
+                userAvatar.classList.add("user-avatar");
+                userAvatar.src =
                   user.personalInfo.profileImageUrl ||
                   "/api/placeholder/400/320";
-                profileImage.alt = user.personalInfo.username;
+                userAvatar.alt = user.personalInfo.username;
 
-                // Create profile info
-                const profileInfo = document.createElement("div");
-                profileInfo.classList.add("profile-info");
+                // Create user info
+                const userInfo = document.createElement("div");
+                userInfo.classList.add("user-info");
 
-                // Create profile name
-                const profileName = document.createElement("div");
-                profileName.classList.add("profile-name");
-                profileName.textContent =
+                // Create user name
+                const userName = document.createElement("div");
+                userName.classList.add("user-name");
+                userName.textContent =
                   user.personalInfo.username || "Anonymous";
 
                 // Add verified badge if user is verified
@@ -716,13 +1524,65 @@
                   verifiedBadge.src =
                     "https://cdn-icons-png.flaticon.com/128/12559/12559876.png";
                   verifiedBadge.alt = "Verified";
-                  profileName.appendChild(verifiedBadge);
+                  userName.appendChild(verifiedBadge);
                 }
+
+                // Create user details
+                const userDetails = document.createElement("div");
+                userDetails.classList.add("user-details");
+
+                // Add age detail if available
+                if (user.personalInfo.age) {
+                  const ageDetail = document.createElement("div");
+                  ageDetail.classList.add("user-detail");
+                  ageDetail.innerHTML = `<i class="fas fa-birthday-cake"></i> ${user.personalInfo.age}`;
+                  userDetails.appendChild(ageDetail);
+                }
+
+                // Add location detail if available
+                if (user.personalInfo.location) {
+                  const locationDetail = document.createElement("div");
+                  locationDetail.classList.add("user-detail");
+                  locationDetail.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${user.personalInfo.location}`;
+                  userDetails.appendChild(locationDetail);
+                } else {
+                  // Add random location
+                  const locations = [
+                    "New York",
+                    "Los Angeles",
+                    "Miami",
+                    "Chicago",
+                    "London",
+                    "Paris",
+                  ];
+                  const randomLocation =
+                    locations[Math.floor(Math.random() * locations.length)];
+                  const locationDetail = document.createElement("div");
+                  locationDetail.classList.add("user-detail");
+                  locationDetail.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${randomLocation}`;
+                  userDetails.appendChild(locationDetail);
+                }
+
+                // Add online status
+                const onlineStatus = Math.random() > 0.5;
+                const statusDetail = document.createElement("div");
+                statusDetail.classList.add("user-detail");
+                statusDetail.innerHTML = onlineStatus
+                  ? `<i class="fas fa-circle" style="color: var(--success-color);"></i> Online`
+                  : `<i class="fas fa-circle" style="color: var(--text-lighter);"></i> Offline`;
+                userDetails.appendChild(statusDetail);
+
+                // Create user bio
+                const userBio = document.createElement("div");
+                userBio.classList.add("user-bio");
+                userBio.textContent =
+                  user.personalInfo.bio ||
+                  "Hi there! I'm looking to meet new people and make meaningful connections.";
 
                 // Create chat button
                 const chatBtn = document.createElement("button");
-                chatBtn.classList.add("chat-btn");
-                chatBtn.textContent = `Chat with ${
+                chatBtn.classList.add("user-chat-btn");
+                chatBtn.innerHTML = `<i class="fas fa-comment-dots"></i> Chat with ${
                   user.personalInfo.username || "User"
                 }`;
                 chatBtn.addEventListener("click", () => {
@@ -735,27 +1595,60 @@
                   window.location.href = "chat.html";
                 });
 
-                // Assemble profile info
-                profileInfo.appendChild(profileName);
+                // Assemble user info
+                userInfo.appendChild(userName);
 
-                // Assemble profile header
-                profileHeader.appendChild(profileImage);
-                profileHeader.appendChild(profileInfo);
+                // Assemble user header
+                userHeader.appendChild(userAvatar);
+                userHeader.appendChild(userInfo);
 
                 // Assemble user card
-                userCard.appendChild(profileHeader);
+                userCard.appendChild(userHeader);
+                userCard.appendChild(userDetails);
+                userCard.appendChild(userBio);
                 userCard.appendChild(chatBtn);
 
-                // Add to users grid
-                usersGrid.appendChild(userCard);
+                // Add to users list
+                usersList.appendChild(userCard);
               });
-
-              usersList.appendChild(usersGrid);
             }
           })
           .catch((error) => {
             console.error("Error fetching users:", error);
           });
+      }
+
+      // Handle video playback
+      function handleVideoPlayback(videoId) {
+        const videoModal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+
+        // Sample video URLs (in a real app, these would come from your database)
+        const videoUrls = {
+          video1:
+            "https://media.gettyimages.com/id/1473217743/video/2023-vanity-fair-oscar-party-hosted-by-radhika-jones-arrivals.mp4?s=mp4-640x640-gi&k=20&c=9ztwewFDsrPx6ZTz-WBIiwXgXX17cJpJAPFg3oBQdpw=",
+          video2:
+            "https://media.gettyimages.com/id/1683077496/video/2023-mtv-video-music-awards-arrivals.mp4?s=mp4-640x640-gi&k=20&c=m_r1uxhFF77x1T0hTPGRGpSOe_66rQfjv5T0eXVgU9M=",
+          video3:
+            "https://media.gettyimages.com/id/2151814616/video/the-2024-met-gala-celebrating-sleeping-beauties-reawakening-fashion-arrivals.mp4?s=mp4-640x640-gi&k=20&c=g4XF0V3vtIg40QdhjXOxtMnTPV8qjG8lhFTvz1RNgjs=",
+          video4:
+            "https://media.gettyimages.com/id/2075084389/video/2024-vanity-fair-oscar-party-hosted-by-radhika-jones-arrivals.mp4?s=mp4-640x640-gi&k=20&c=e5ApIt3ejSxhxZ327BpeTnG-wggrUJ-QeGZF6BPdI6I=",
+          video5:
+            "https://media.gettyimages.com/id/1520692951/video/slow-mo-gaurav-gupta-outside-arrivals-paris-fashion-week-haute-couture-fall-winter-2023-2024.mp4?s=mp4-640x640-gi&k=20&c=ajtbQSnxXZ9FWU_zN3tqkKqy_zpcxnMQb4Pw2VN04Fw=",
+          video6:
+            "https://media.gettyimages.com/id/1486942949/video/slow-mo-the-2023-met-gala-celebrating-karl-lagerfeld-a-line-of-beauty-arrivals.mp4?s=mp4-640x640-gi&k=20&c=1HN9ceQG_VV8Vp79eU10YwHTxjvsto8BKnIoPJJNFv0=",
+        };
+
+        // Create video element
+        videoPlayer.innerHTML = `
+          <video width="100%" controls autoplay>
+            <source src="${videoUrls[videoId]}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        `;
+
+        // Show modal
+        videoModal.classList.add("active");
       }
 
       // Initialize on page load
@@ -786,16 +1679,70 @@
           .addEventListener("click", function () {
             // Store default chat partner info in local storage
             localStorage.setItem("chatPartnerId", "cardib");
-            localStorage.setItem("chatPartnerName", "Cardi b");
+            localStorage.setItem("chatPartnerName", "Cardi B");
             window.location.href = "chat.html";
           });
 
         // Video card click events
         const videoCards = document.querySelectorAll(".video-card");
-        videoCards.forEach((card, index) => {
+        videoCards.forEach((card) => {
           card.addEventListener("click", function () {
-            // You can add video playback functionality here
-            alert(`Playing video ${index + 1}`);
+            const videoId = this.getAttribute("data-video");
+            handleVideoPlayback(videoId);
+          });
+        });
+
+        // Video modal close
+        document
+          .getElementById("videoModalClose")
+          .addEventListener("click", function () {
+            const videoModal = document.getElementById("videoModal");
+            const videoPlayer = document.getElementById("videoPlayer");
+
+            // Stop video playback
+            videoPlayer.innerHTML = "";
+
+            // Hide modal
+            videoModal.classList.remove("active");
+          });
+
+        // Category card click events
+        const categoryCards = document.querySelectorAll(".category-card");
+        categoryCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
+            alert(`Browsing ${category} category`);
+            // In a real app, you would filter users by category here
+          });
+        });
+
+        // Bottom navigation events
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            if (!this.classList.contains("active")) {
+              e.preventDefault();
+
+              // Remove active class from all items
+              navItems.forEach((navItem) => {
+                navItem.classList.remove("active");
+              });
+
+              // Add active class to clicked item
+              this.classList.add("active");
+
+              // Handle navigation (in a real app, you would navigate to different pages)
+              const navText = this.querySelector("span").textContent;
+              if (navText === "Messages") {
+                alert("Messages feature coming soon!");
+              } else if (navText === "Discover") {
+                alert("Discover feature coming soon!");
+              } else if (navText === "Matches") {
+                alert("Matches feature coming soon!");
+              } else if (navText === "Profile") {
+                window.location.href = "settings.html";
+              }
+            }
           });
         });
       });
