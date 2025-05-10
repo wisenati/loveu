@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triv Cloud - Recover Your Lost Funds</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --secondary: #a29bfe;
+        --accent: #fd79a8;
+        --dark: #2d3436;
+        --light: #f5f6fa;
+        --success: #00b894;
+        --warning: #fdcb6e;
+        --danger: #d63031;
+        --info: #0984e3;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        animation: fadeInDown 1s ease;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 30px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary);
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        bottom: -5px;
+        left: 0;
+        transition: width 0.3s ease;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 50px 0;
+        animation: fadeIn 1.5s ease;
+      }
+
+      .hero-content {
+        flex: 1;
+        padding-right: 50px;
+      }
+
+      .hero-content h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        background: linear-gradient(to right, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        margin-left: 15px;
+      }
+
+      .btn-outline:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .hero-image {
+        flex: 1;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .hero-image img {
+        width: 100%;
+        max-width: 500px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .case-details {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        margin: 50px 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        animation: fadeInUp 1s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .case-details::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary), var(--accent));
+      }
+
+      .case-details h3 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .detail-card {
+        background: var(--light);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+      }
+
+      .detail-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .detail-card h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .detail-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .detail-card .highlight {
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 1.1rem;
+      }
+
+      .payment-section {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        margin: 50px 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        animation: fadeInUp 1s ease;
+        text-align: center;
+      }
+
+      .payment-section h3 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
+
+      .payment-section p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: #555;
+        line-height: 1.6;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .payment-details {
+        background: var(--light);
+        padding: 30px;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 600px;
+        text-align: left;
+      }
+
+      .payment-details h4 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        text-align: center;
+      }
+
+      .payment-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .payment-item:last-child {
+        border-bottom: none;
+      }
+
+      .payment-item .label {
+        font-weight: 500;
+        color: #555;
+      }
+
+      .payment-item .value {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 0 20px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: 100%;
+        background: var(--secondary);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+        width: 100%;
+      }
+
+      .timeline-item:nth-child(odd) {
+        padding-right: calc(50% + 30px);
+        text-align: right;
+      }
+
+      .timeline-item:nth-child(even) {
+        padding-left: calc(50% + 30px);
+        text-align: left;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+      }
+
+      .timeline-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .timeline-content h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .timeline-content p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: all 0.5s ease;
+      }
+
+      .loader {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+
+      .loader-text {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-top: 20px;
+        background: linear-gradient(to right, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: pulse 2s infinite;
+      }
+
+      .triv-letter {
+        position: absolute;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary);
+        opacity: 0;
+        animation: floatLetter 4s infinite;
+      }
+
+      .triv-letter:nth-child(1) {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-delay: 0.1s;
+      }
+      .triv-letter:nth-child(2) {
+        top: 15%;
+        right: 15%;
+        animation-delay: 0.2s;
+      }
+      .triv-letter:nth-child(3) {
+        top: 50%;
+        right: 5%;
+        animation-delay: 0.3s;
+      }
+      .triv-letter:nth-child(4) {
+        bottom: 15%;
+        right: 15%;
+        animation-delay: 0.4s;
+      }
+      .triv-letter:nth-child(5) {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-delay: 0.5s;
+      }
+      .triv-letter:nth-child(6) {
+        bottom: 15%;
+        left: 15%;
+        animation-delay: 0.6s;
+      }
+      .triv-letter:nth-child(7) {
+        top: 50%;
+        left: 5%;
+        animation-delay: 0.7s;
+      }
+      .triv-letter:nth-child(8) {
+        top: 15%;
+        left: 15%;
+        animation-delay: 0.8s;
+      }
+
+      footer {
+        background: var(--dark);
+        color: white;
+        padding: 50px 0 20px;
+        margin-top: 50px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .footer-column h4 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--secondary);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-column ul li a {
+        color: #ddd;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer-column ul li a:hover {
+        color: var(--secondary);
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes floatLetter {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-20px) scale(1.2);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Responsive styles */
+      @media (max-width: 992px) {
+        .hero {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .hero-content {
+          padding-right: 0;
+          margin-bottom: 40px;
+        }
+
+        .btn-outline {
+          margin-left: 0;
+          margin-top: 15px;
+        }
+
+        .timeline::before {
+          left: 30px;
+        }
+
+        .timeline-item:nth-child(odd),
+        .timeline-item:nth-child(even) {
+          padding-left: 70px;
+          padding-right: 0;
+          text-align: left;
+        }
+
+        .timeline-dot {
+          left: 30px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav ul {
+          margin-top: 20px;
+          justify-content: center;
+        }
+
+        nav ul li {
+          margin: 0 10px;
+        }
+
+        .hero-content h2 {
+          font-size: 2.2rem;
+        }
+
+        .case-details,
+        .payment-section {
+          padding: 30px 20px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero-content h2 {
+          font-size: 1.8rem;
+        }
+
+        .btn {
+          padding: 10px 20px;
+          font-size: 0.9rem;
+        }
+
+        .details-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .payment-details {
+          padding: 20px 15px;
+        }
+
+        .payment-item {
+          flex-direction: column;
+        }
+
+        .payment-item .value {
+          margin-top: 5px;
+        }
+      }
+
+      /* Confetti effect */
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: var(--primary);
+        opacity: 0;
+        z-index: 999;
+        animation: confetti 5s ease-in-out;
+      }
+
+      @keyframes confetti {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+      <div class="loader">
+        <div class="triv-letter">T</div>
+        <div class="triv-letter">R</div>
+        <div class="triv-letter">I</div>
+        <div class="triv-letter">V</div>
+        <div class="triv-letter">C</div>
+        <div class="triv-letter">L</div>
+        <div class="triv-letter">O</div>
+        <div class="triv-letter">D</div>
+      </div>
+      <div class="loader-text">Processing Your Request</div>
+    </div>
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h1>Triv Cloud</h1>
+        </div>
+        <nav>
+          <ul>
+            <!-- <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li> -->
+          </ul>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h2>Recover Your Lost Funds with Triv Cloud</h2>
+          <p>
+            We specialize in helping victims of financial scams recover their
+            hard-earned money. Our team of experts works tirelessly to track
+            down scammers and retrieve your funds through legal channels and
+            banking partnerships.
+          </p>
+          <div>
+            <a href="#payment" class="btn">Pay Service Fee</a>
+            <a href="#" class="btn btn-outline">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img
+            src="https://cdn-icons-png.freepik.com/256/15096/15096903.png?semt=ais_hybrid"
+            alt="Fund Recovery"
+          />
+        </div>
+      </section>
+
+      <section class="case-details">
+        <h3>Case Details</h3>
+        <p>
+          Below are the details of your case with Triv Cloud. We're currently
+          processing your fund recovery request for the amount scammed by James
+          Olushola Omoogun.
+        </p>
+
+        <div class="details-grid">
+          <div class="detail-card">
+            <h4>Victim Information</h4>
+            <p>
+              <span class="label">Full Name:</span>
+              <span class="highlight">Adewoyin Prevail Waliu</span>
+            </p>
+            <p>
+              <span class="label">Amount Lost:</span>
+              <span class="highlight">₦17,500</span>
+            </p>
+            <p>
+              <span class="label">Date of Incident:</span>
+              <span class="highlight">April 2, 2025</span>
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Scammer Information</h4>
+            <p>
+              <span class="label">Full Name:</span>
+              <span class="highlight">James Olushola Omoogun</span>
+            </p>
+            <p>
+              <span class="label">Bank:</span>
+              <span class="highlight">Paga</span>
+            </p>
+            <p>
+              <span class="label">Account Number:</span>
+              <span class="highlight">384 106 9403</span>
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Transaction Details</h4>
+            <p>
+              <span class="label">Purpose:</span>
+              <span class="highlight">Oriamo Power Bank Purchase</span>
+            </p>
+            <p>
+              <span class="label">Status:</span>
+              <span class="highlight">Under Recovery</span>
+            </p>
+            <p>
+              <span class="label">Days Pending:</span>
+              <span class="highlight" id="days-pending">38</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="payment-section" id="payment">
+        <h3>Complete Your Payment</h3>
+        <p>
+          To proceed with the recovery of your ₦17,500, please pay the Triv
+          Cloud service charge of ₦3,000 to the account details below. Once
+          payment is confirmed, we'll immediately initiate the recovery process
+          with the NDIC/Central Bank of Nigeria.
+        </p>
+
+        <div class="payment-details">
+          <h4>Payment Information</h4>
+          <div class="payment-item">
+            <span class="label">Bank Name:</span>
+            <span class="value">Nombank MFB</span>
+          </div>
+          <div class="payment-item">
+            <span class="label">Account Number:</span>
+            <span class="value">2389902652</span>
+          </div>
+          <div class="payment-item">
+            <span class="label">Account Name:</span>
+            <span class="value">Moniebase LTD</span>
+          </div>
+          <div class="payment-item">
+            <span class="label">Amount to Pay:</span>
+            <span class="value">₦3,000</span>
+          </div>
+          <div class="payment-item">
+            <span class="label">Reference:</span>
+            <span class="value">TRIV-ADEW-2025</span>
+          </div>
+        </div>
+
+        <button class="btn" id="confirm-payment">I've Made the Payment</button>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #777">
+          After payment, your funds will be released within 24-48 hours of
+          verification.
+        </p>
+      </section>
+
+      <section class="timeline">
+        <h3 style="text-align: center; margin-bottom: 40px">
+          Recovery Process Timeline
+        </h3>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Case Submitted</h4>
+            <p>
+              April 5, 2025 - Your case was successfully submitted to Triv Cloud
+              for processing.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Scammer Identified</h4>
+            <p>
+              April 10, 2025 - Our team successfully identified and verified the
+              scammer's account details.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Bank Notification</h4>
+            <p>
+              April 15, 2025 - Paga Bank was officially notified of the
+              fraudulent transaction.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>NDIC Involvement</h4>
+            <p>
+              April 25, 2025 - The Nigeria Deposit Insurance Corporation (NDIC)
+              was engaged in the recovery process.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Pending Payment</h4>
+            <p>
+              Your payment of ₦3,000 service charge is required to complete the
+              recovery process.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Funds Release</h4>
+            <p>
+              Once payment is confirmed, your ₦17,500 will be released within
+              24-48 hours.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4>Triv Cloud</h4>
+            <p>
+              We're dedicated to helping victims of financial fraud recover
+              their lost funds through legal channels and banking partnerships.
+            </p>
+            <!-- <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Testimonials</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#">Fund Recovery</a></li>
+              <li><a href="#">Fraud Investigation</a></li>
+              <li><a href="#">Bank Liaison</a></li>
+              <li><a href="#">Legal Support</a></li>
+              <li><a href="#">Financial Counseling</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Contact Us</h4>
+            <ul>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Recovery Street,
+                Lagos, Nigeria
+              </li>
+              <li><i class="fas fa-phone"></i> +234 812 345 6789</li>
+              <li><i class="fas fa-envelope"></i> support@trivcloud.com</li>
+            </ul>
+          </div>
+        </div> -->
+
+        <div class="copyright">
+          <p>&copy; 2025 Triv Cloud. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Loader timeout
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.getElementById("loader").style.opacity = "0";
+          setTimeout(function () {
+            document.getElementById("loader").style.display = "none";
+          }, 500);
+        }, 3000);
+      });
+
+      // Calculate days pending
+      document.addEventListener("DOMContentLoaded", function () {
+        const incidentDate = new Date("2025-04-02");
+        const today = new Date();
+        const diffTime = Math.abs(today - incidentDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        document.getElementById("days-pending").textContent = diffDays;
+      });
+
+      // Confirmation button effect
+      document
+        .getElementById("confirm-payment")
+        .addEventListener("click", function () {
+          // Show loader
+          document.getElementById("loader").style.display = "flex";
+          document.getElementById("loader").style.opacity = "1";
+
+          // Change loader text
+          document.querySelector(".loader-text").textContent =
+            "Verifying Payment...";
+
+          // Simulate verification process
+          setTimeout(function () {
+            document.querySelector(".loader-text").textContent =
+              "Payment Pending!";
+
+            // Create confetti effect
+            createConfetti();
+
+            // Show success message
+            setTimeout(function () {
+              document.querySelector(".loader-text").textContent =
+                "Funds Recovery Initiated!";
+
+              // Hide loader after completion
+              setTimeout(function () {
+                document.getElementById("loader").style.opacity = "0";
+                setTimeout(function () {
+                  document.getElementById("loader").style.display = "none";
+
+                  // Show success alert
+                  alert(
+                    "Thank you! Your payment is undergoing verification. Your ₦17,500 will be credited to your account within 24-48 hours after verification."
+                  );
+                }, 500);
+              }, 2000);
+            }, 1500);
+          }, 2000);
+        });
+
+      // Create confetti effect
+      function createConfetti() {
+        const colors = ["#6c5ce7", "#a29bfe", "#fd79a8", "#00b894", "#fdcb6e"];
+
+        for (let i = 0; i < 100; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.width = Math.random() * 10 + 5 + "px";
+          confetti.style.height = Math.random() * 10 + 5 + "px";
+          confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+          document.body.appendChild(confetti);
+
+          // Remove confetti after animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 5000);
+        }
+      }
+
+      // Animate elements on scroll
+      const animateOnScroll = function () {
+        const elements = document.querySelectorAll(
+          ".case-details, .payment-section, .timeline"
+        );
+
+        elements.forEach((element) => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+
+          if (elementPosition < screenPosition) {
+            element.style.animation = "fadeInUp 1s ease forwards";
+          }
+        });
+      };
+
+      window.addEventListener("scroll", animateOnScroll);
+      animateOnScroll(); // Run once on load
+    </script>
+  </body>
+</html>
